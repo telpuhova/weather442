@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="250dp"
+    android:layout_height="match_parent"
+    android:weightSum="1"
+    android:orientation="vertical"
+    android:id="@+id/baseLayout">
+
+
+    <TextView
+        android:text="Create habit"
+        android:layout_width="300dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/createHabitTextView"
+        android:textColor="@color/colorPrimaryDark"
+        android:typeface="monospace"
+        android:textStyle="normal|bold"
+        android:layout_marginTop="10dp"
+        android:textAlignment="center"
+        android:padding="10dp" />
+
+
+    <EditText
+        android:id="@+id/inputHabitEditText"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="10dp"
+        android:hint="name"
+        android:layout_below="@id/createHabitTextView"/>
+
+    <Button
+        android:id="@+id/submitButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/inputHabitEditText"
+        android:text="Submit"
+        android:layout_marginBottom="15dp"
+        android:layout_marginLeft="57dp" />
+
+    <Button
+        android:id="@+id/cancelButton"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/inputHabitEditText"
+        android:layout_toEndOf="@+id/submitButton"
+        android:layout_toRightOf="@+id/submitButton"
+        android:text="cancel" />
+
+
+</RelativeLayout>
