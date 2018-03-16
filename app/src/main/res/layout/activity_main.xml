@@ -9,7 +9,8 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="Habit Tracker" />
+        android:text="Habit Tracker"
+        android:textSize="40dp" />
 
     <Button
         android:id="@+id/habitsButton"
@@ -26,4 +27,13 @@
         android:layout_below="@+id/habitsButton"
         android:layout_centerHorizontal="true"
         android:text="about" />
+
+    <TextView
+        android:id="@+id/subTitleTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/titleTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="17dp"
+        android:text="get your stuff together" />
 </RelativeLayout>
