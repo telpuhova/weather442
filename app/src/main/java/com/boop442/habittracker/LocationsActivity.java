@@ -1,9 +1,11 @@
 package com.boop442.habittracker;
 
 import android.app.FragmentManager;
+import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
@@ -11,7 +13,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LocationsActivity extends AppCompatActivity implements View.OnClickListener{
-    @BindView(R.id.locationsListView) ListView mHabitsListView;
+    @BindView(R.id.locationsListView) ListView mLocationsListView;
     @BindView(R.id.addButton) Button mAddButton;
 
     String[] locations = new String[] {"Portland", "Moscow", "Berlin", "London"};
@@ -24,7 +26,16 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         ButterKnife.bind(this);
 
         LocationsArrayAdapter adapter = new LocationsArrayAdapter(this, android.R.layout.simple_list_item_1, locations);
-        mHabitsListView.setAdapter(adapter);
+        mLocationsListView.setAdapter(adapter);
+
+        mLocationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Intent intent = new Intent(LocationsActivity.this, WeatherActivity.class);
+                intent.putExtra("location", locations[position]);
+                startActivity(intent);
+            }
+        });
 
         mAddButton.setOnClickListener(this);
     }
