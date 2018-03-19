@@ -14,7 +14,7 @@ import android.widget.TextView;
  * Created by boop442 on 3/16/2018.
  */
 
-public class AddHabitDialogFragment extends DialogFragment {
+public class AddLocationDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -22,7 +22,7 @@ public class AddHabitDialogFragment extends DialogFragment {
 
         Button cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
         Button submitButton = (Button) rootView.findViewById(R.id.submitButton);
-        final EditText inputHabitEditText = (EditText) rootView.findViewById(R.id.inputHabitEditText);
+        final EditText inputLocationEditText = (EditText) rootView.findViewById(R.id.inputLocationEditText);
 
         cancelButton.setOnClickListener(new View.OnClickListener() {
 
@@ -36,8 +36,8 @@ public class AddHabitDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
-                String newHabit = inputHabitEditText.getText().toString();
-                Log.d("testing", newHabit);
+                String newLocation = inputLocationEditText.getText().toString();
+                Log.d("testing", newLocation);
                 dismiss();
             }
         });

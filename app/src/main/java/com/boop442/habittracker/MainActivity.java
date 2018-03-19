@@ -12,10 +12,9 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    @BindView(R.id.habitsButton) Button mHabitsButton;
+    @BindView(R.id.locationsButton) Button mHabitsButton;
     @BindView(R.id.aboutButton) Button mAboutButton;
     @BindView(R.id.titleTextView) TextView mTitleTextView;
-    @BindView(R.id.subTitleTextView) TextView mSubTitleTextView;
 
 
     @Override
@@ -28,7 +27,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface typeface = Typeface.createFromAsset(getAssets(), "fonts/I Am Awake.ttf");
         Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/Halimun.ttf");
         mTitleTextView.setTypeface(typeface);
-        mSubTitleTextView.setTypeface(typeface2);
 
         mHabitsButton.setOnClickListener(this);
         mAboutButton.setOnClickListener(this);
@@ -37,7 +35,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == mHabitsButton) {
-            Intent intent = new Intent(MainActivity.this, HabitsActivity.class);
+            Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
             startActivity(intent);
         }
         if (v == mAboutButton) {

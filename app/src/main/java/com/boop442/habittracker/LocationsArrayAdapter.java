@@ -7,24 +7,24 @@ import android.widget.ArrayAdapter;
  * Created by boop442 on 3/16/2018.
  */
 
-public class HabitArrayAdapter extends ArrayAdapter{
+public class LocationsArrayAdapter extends ArrayAdapter{
     private Context mContext;
-    private String[] mHabits;
+    private String[] mLocations;
 
-    public HabitArrayAdapter(Context mContext, int resource, String[] mHabits){
+    public LocationsArrayAdapter(Context mContext, int resource, String[] mLocations){
         super(mContext, resource);
         this.mContext = mContext;
-        this.mHabits = mHabits;
+        this.mLocations = mLocations;
     }
 
     @Override
     public Object getItem(int position) {
-        String habit = mHabits[position];
+        String habit = mLocations[position];
         return String.format("%s", habit);
     }
 
     @Override
     public int getCount() {
-        return mHabits.length;
+        return mLocations.length;
     }
 }

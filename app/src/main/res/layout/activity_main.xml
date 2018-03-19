@@ -9,16 +9,16 @@
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="80dp"
-        android:text="Habit Tracker"
+        android:text="Weather"
         android:textSize="40dp" />
 
     <Button
-        android:id="@+id/habitsButton"
+        android:id="@+id/locationsButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:text="your habits" />
+        android:text="start" />
 
     <Button
         android:id="@+id/aboutButton"
@@ -28,12 +28,5 @@
         android:layout_alignParentRight="true"
         android:text="about" />
 
-    <TextView
-        android:id="@+id/subTitleTextView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@+id/titleTextView"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="17dp"
-        android:text="get your stuff together" />
+
 </RelativeLayout>

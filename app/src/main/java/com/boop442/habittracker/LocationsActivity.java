@@ -10,11 +10,11 @@ import android.widget.ListView;
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
-public class HabitsActivity extends AppCompatActivity implements View.OnClickListener{
-    @BindView(R.id.habitsListView) ListView mHabitsListView;
+public class LocationsActivity extends AppCompatActivity implements View.OnClickListener{
+    @BindView(R.id.locationsListView) ListView mHabitsListView;
     @BindView(R.id.addButton) Button mAddButton;
 
-    String[] habits = new String[] {"play a guitar", "sports", "socialize", "code", "eat fruits", "call mom"};
+    String[] locations = new String[] {"Portland", "Moscow", "Berlin", "London"};
 
 
     @Override
@@ -23,7 +23,7 @@ public class HabitsActivity extends AppCompatActivity implements View.OnClickLis
         setContentView(R.layout.activity_habits);
         ButterKnife.bind(this);
 
-        HabitArrayAdapter adapter = new HabitArrayAdapter(this, android.R.layout.simple_list_item_1, habits);
+        LocationsArrayAdapter adapter = new LocationsArrayAdapter(this, android.R.layout.simple_list_item_1, locations);
         mHabitsListView.setAdapter(adapter);
 
         mAddButton.setOnClickListener(this);
@@ -40,7 +40,7 @@ public class HabitsActivity extends AppCompatActivity implements View.OnClickLis
 
 
             FragmentManager fm = getFragmentManager();
-            AddHabitDialogFragment moodDialogFragment = new AddHabitDialogFragment();
+            AddLocationDialogFragment moodDialogFragment = new AddLocationDialogFragment();
             moodDialogFragment.show(fm, "Sample Fragment");
         }
     }

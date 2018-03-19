@@ -9,10 +9,10 @@
 
 
     <TextView
-        android:text="Create habit"
+        android:text="Add location"
         android:layout_width="300dp"
         android:layout_height="wrap_content"
-        android:id="@+id/createHabitTextView"
+        android:id="@+id/addLocationTextView"
         android:textColor="@color/colorPrimaryDark"
         android:typeface="monospace"
         android:textStyle="normal|bold"
@@ -22,19 +22,19 @@
 
 
     <EditText
-        android:id="@+id/inputHabitEditText"
+        android:id="@+id/inputLocationEditText"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
-        android:hint="name"
-        android:layout_below="@id/createHabitTextView"/>
+        android:hint="location"
+        android:layout_below="@id/addLocationTextView"/>
 
     <Button
         android:id="@+id/submitButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/inputHabitEditText"
+        android:layout_below="@id/inputLocationEditText"
         android:text="Submit"
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="57dp" />
@@ -43,7 +43,7 @@
         android:id="@+id/cancelButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/inputHabitEditText"
+        android:layout_below="@+id/inputLocationEditText"
         android:layout_toEndOf="@+id/submitButton"
         android:layout_toRightOf="@+id/submitButton"
         android:text="cancel" />
