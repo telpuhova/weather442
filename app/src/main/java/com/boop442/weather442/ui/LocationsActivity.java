@@ -1,4 +1,4 @@
-package com.boop442.habittracker;
+package com.boop442.weather442.ui;
 
 import android.app.FragmentManager;
 import android.content.Intent;
@@ -9,6 +9,10 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
 
+import com.boop442.weather442.AddLocationDialogFragment;
+import com.boop442.weather442.LocationsArrayAdapter;
+import com.boop442.weather442.R;
+
 import butterknife.BindView;
 import butterknife.ButterKnife;
 
@@ -16,7 +20,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.locationsListView) ListView mLocationsListView;
     @BindView(R.id.addButton) Button mAddButton;
 
-    String[] locations = new String[] {"Portland", "Moscow", "Berlin", "London"};
+    String[] locations = new String[] {"Portland", "Moscow", "Berlin", "44418", "London"};
 
 
     @Override

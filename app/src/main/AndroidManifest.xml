@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.boop442.habittracker">
+    package="com.boop442.weather442">
+
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <application
         android:allowBackup="true"
@@ -10,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".MainActivity"
+            android:name="com.boop442.weather442.ui.MainActivity"
             android:theme="@style/NoActionBarTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -18,20 +20,20 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".LocationsActivity">
+        <activity android:name="com.boop442.weather442.ui.LocationsActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"></meta-data>
+                android:value="com.boop442.weather442.ui.MainActivity"></meta-data>
         </activity>
-        <activity android:name=".AboutActivity">
+        <activity android:name="com.boop442.weather442.ui.AboutActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".MainActivity"></meta-data>
+                android:value="com.boop442.weather442.ui.MainActivity"></meta-data>
         </activity>
-        <activity android:name=".WeatherActivity">
+        <activity android:name="com.boop442.weather442.ui.WeatherActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value=".LocationsActivity"></meta-data>
+                android:value="com.boop442.weather442.ui.LocationsActivity"></meta-data>
         </activity>
     </application>
 

@@ -1,9 +1,11 @@
-package com.boop442.habittracker;
+package com.boop442.weather442.ui;
 
 import android.graphics.Typeface;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.widget.TextView;
+
+import com.boop442.weather442.R;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;

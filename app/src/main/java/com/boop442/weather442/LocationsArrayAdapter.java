@@ -1,4 +1,4 @@
-package com.boop442.habittracker;
+package com.boop442.weather442;
 
 import android.content.Context;
 import android.widget.ArrayAdapter;
