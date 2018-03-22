@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 
 import com.boop442.weather442.R;
@@ -21,8 +23,10 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
     @BindView(R.id.locTitleTextView) TextView mLocTitleTextView;
+    @BindView(R.id.listView) ListView mListView;
 
     ArrayList<Forecast> forecasts = new ArrayList<>();
+    String[] forecastsDatesTest = {"123", "234", "345", "456", "567", "678"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,16 +53,23 @@ public class WeatherActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                try {
-                    String jsonData = response.body().string();
-                    if (response.isSuccessful()) {
-                        forecasts = MetaWeatherService.processResults(response);
-                        Log.v("weatherActivity", forecasts.toString());
+            public void onResponse(Call call, Response response) {
+                forecasts = MetaWeatherService.processResults(response);
+
+                WeatherActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        String[] forecastsDates = new String[forecasts.size()];
+                        for (int i = 0; i < forecastsDates.length; i++) {
+                            forecastsDates[i] = forecasts.get(i).getDate();
+                        }
+
+//                        Log.v("WEATHER_ACTIVITY",);
+
+                        ArrayAdapter adapter = new ArrayAdapter(WeatherActivity.this, android.R.layout.simple_list_item_1, forecastsDates);
+                        mListView.setAdapter(adapter);
                     }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+                });
             }
         });
     }

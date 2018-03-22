@@ -64,6 +64,7 @@ public class MetaWeatherService {
                 double air_pressure = forecastJSON.getDouble("air_pressure");
 
                 Forecast forecast = new Forecast(date, state, t, min_t, max_t, wind_dir, wind_speed, humidity, air_pressure);
+                forecasts.add(forecast);
             }
 
         } catch (IOException e) {
