@@ -7,9 +7,11 @@ import android.util.Log;
 import android.widget.TextView;
 
 import com.boop442.weather442.R;
+import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.services.MetaWeatherService;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -19,6 +21,8 @@ import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
     @BindView(R.id.locTitleTextView) TextView mLocTitleTextView;
+
+    ArrayList<Forecast> forecasts = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,7 +52,10 @@ public class WeatherActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) throws IOException {
                 try {
                     String jsonData = response.body().string();
-                    Log.v("weatherActivity", jsonData);
+                    if (response.isSuccessful()) {
+                        forecasts = MetaWeatherService.processResults(response);
+                        Log.v("weatherActivity", forecasts.toString());
+                    }
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

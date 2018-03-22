@@ -1,12 +1,21 @@
 package com.boop442.weather442.services;
 
 import com.boop442.weather442.Constants;
+import com.boop442.weather442.models.Forecast;
+
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
+import okhttp3.Response;
 
 /**
  * Created by boop442 on 3/22/2018.
@@ -31,5 +40,37 @@ public class MetaWeatherService {
         //executing request, by calling it asynchronously
         Call call = client.newCall(request);
         call.enqueue(callback);//call.execute() to do it synchronously
+    }
+
+    public static ArrayList<Forecast> processResults(Response response) {
+
+        ArrayList<Forecast> forecasts = new ArrayList<>();
+
+        try {
+            String jsonData = response.body().string();
+            JSONObject weatherJSON = new JSONObject(jsonData);
+            JSONArray forecastsJSON = weatherJSON.getJSONArray("consolidated_weather");
+            for (int i=0; i < forecastsJSON.length(); i++) {
+                JSONObject forecastJSON = forecastsJSON.getJSONObject(i);
+
+                String date = forecastJSON.getString("applicable_date");
+                String state = forecastJSON.getString("weather_state_name");
+                double t = forecastJSON.getDouble("the_temp");
+                double min_t = forecastJSON.getDouble("min_temp");
+                double max_t = forecastJSON.getDouble("max_temp");
+                String wind_dir = forecastJSON.getString("wind_direction_compass");
+                double wind_speed = forecastJSON.getDouble("wind_speed");
+                int humidity = forecastJSON.getInt("humidity");
+                double air_pressure = forecastJSON.getDouble("air_pressure");
+
+                Forecast forecast = new Forecast(date, state, t, min_t, max_t, wind_dir, wind_speed, humidity, air_pressure);
+            }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+        return forecasts;
     }
 }
