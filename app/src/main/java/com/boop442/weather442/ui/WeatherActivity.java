@@ -31,6 +31,7 @@ public class WeatherActivity extends AppCompatActivity {
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     private ForecastListAdapter mAdapter;
 
+    String woeid = "44418";
     ArrayList<Forecast> forecasts = new ArrayList<>();
     String[] forecastsDatesTest = {"123", "234", "345", "456", "567", "678"};
 
@@ -52,7 +53,25 @@ public class WeatherActivity extends AppCompatActivity {
 
     private void getForecast(String location) {
         final MetaWeatherService weatherService = new MetaWeatherService();
-        weatherService.findForecast(location, new Callback() {
+        Log.v("WEATHER_ACTIVITY", "getForecast function");
+
+
+        weatherService.getWoeid(location, new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
+                woeid = String.valueOf(MetaWeatherService.processWoeidCall(response));
+            }
+        });
+
+        weatherService.findForecast(woeid, new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();
@@ -62,6 +81,7 @@ public class WeatherActivity extends AppCompatActivity {
             public void onResponse(Call call, Response response) {
                 forecasts = MetaWeatherService.processResults(response);
 
+                //displaying asynchronously in a ui thread
                 WeatherActivity.this.runOnUiThread(new Runnable() {
                     @Override
                     public void run() {

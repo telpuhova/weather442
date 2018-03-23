@@ -1,5 +1,7 @@
 package com.boop442.weather442.services;
 
+import android.util.Log;
+
 import com.boop442.weather442.Constants;
 import com.boop442.weather442.models.Forecast;
 
@@ -16,12 +18,33 @@ import okhttp3.HttpUrl;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.ResponseBody;
 
 /**
  * Created by boop442 on 3/22/2018.
  */
 
 public class MetaWeatherService {
+
+    public static void getWoeid(String location, Callback callback) {
+        //creating client
+        OkHttpClient client = new OkHttpClient.Builder().build();
+
+        //constructing URL to send requests to
+        HttpUrl.Builder urlBuilder = HttpUrl.parse(Constants.BASE_URL).newBuilder();
+        urlBuilder.addPathSegment(Constants.LOCATION_QUERY_PARAMETER);
+        urlBuilder.addPathSegment("search");
+        urlBuilder.addQueryParameter("query", location);
+        String url = urlBuilder.build().toString();
+
+        //making request using new url
+        Request request = new Request.Builder().url(url).build();
+
+        //executing request, by calling it asynchronously
+        Call call = client.newCall(request);
+        call.enqueue(callback);//call.execute() to do it synchronously
+    }
+
     public static void findForecast(String location, Callback callback) {
 
         //creating client
@@ -40,6 +63,26 @@ public class MetaWeatherService {
         //executing request, by calling it asynchronously
         Call call = client.newCall(request);
         call.enqueue(callback);//call.execute() to do it synchronously
+    }
+
+    public static int processWoeidCall(Response response) {
+        int woeid = 1;
+
+        try {
+            String jsonData = response.body().string();
+//            JSONObject woeidJSON = new JSONObject(jsonData);
+            JSONArray woeidArrJSON = new JSONArray(jsonData);
+            Log.v("weatherSERVICE", woeidArrJSON.toString());
+
+            woeid = woeidArrJSON.getJSONObject(0).getInt("woeid");
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        } catch (JSONException e) {
+//            e.printStackTrace();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return woeid;
     }
 
     public static ArrayList<Forecast> processResults(Response response) {
