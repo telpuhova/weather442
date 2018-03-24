@@ -1,6 +1,7 @@
 package com.boop442.weather442.ui;
 
 import android.app.FragmentManager;
+import android.content.Context;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -10,9 +11,11 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.boop442.weather442.AddLocationDialogFragment;
 import com.boop442.weather442.LocationsArrayAdapter;
+import com.boop442.weather442.OnItemClickListener;
 import com.boop442.weather442.R;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Location;
@@ -45,8 +48,16 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         locations.add(new Location("Portland", "456"));
 
 
-        mAdapter = new LocationListAdapter(locations, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
+
+        mRecyclerView.setAdapter(new LocationListAdapter(locations, getApplicationContext(), new LocationListAdapter.OnItemClickListener() {
+            @Override public void onItemClick(Location item, Context context) {
+                Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
+            }
+        }));
+
+
+//        mAdapter = new LocationListAdapter(locations, getApplicationContext());
+//        mRecyclerView.setAdapter(mAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
