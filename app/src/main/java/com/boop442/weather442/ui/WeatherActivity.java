@@ -44,11 +44,12 @@ public class WeatherActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
 
-        String location = intent.getStringExtra("location").toString();
+        String location_title = intent.getStringExtra("location_title").toString();
+        String location_woeid = intent.getStringExtra("location_woeid").toString();
 
 //        mLocTitleTextView.setText(location);
 
-        getForecast(location);
+        getForecast(location_title);
     }
 
     private void getForecast(String location) {
@@ -87,8 +88,7 @@ public class WeatherActivity extends AppCompatActivity {
                     public void run() {
                         mAdapter = new ForecastListAdapter(forecasts, getApplicationContext());
                         mRecyclerView.setAdapter(mAdapter);
-                        RecyclerView.LayoutManager layoutManager =
-                                new LinearLayoutManager(WeatherActivity.this);
+                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(WeatherActivity.this);
                         mRecyclerView.setLayoutManager(layoutManager);
                         mRecyclerView.setHasFixedSize(true);
                     }
