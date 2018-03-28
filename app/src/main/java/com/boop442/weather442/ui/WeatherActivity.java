@@ -39,6 +39,7 @@ public class WeatherActivity extends AppCompatActivity {
     ArrayList<Forecast> forecasts = new ArrayList<>();
     String[] forecastsDatesTest = {"123", "234", "345", "456", "567", "678"};
     ArrayList<Location> mLocations = new ArrayList<>();
+    Location mCurrentLocation;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,10 +51,10 @@ public class WeatherActivity extends AppCompatActivity {
         mLocations = Parcels.unwrap(getIntent().getParcelableExtra("locations"));
         int startingPosition = getIntent().getIntExtra("position", 0);
 
-        String location_title = mLocations.get(startingPosition).getTitle();
-        String location_woeid = mLocations.get(startingPosition).getWoeid();
+        mCurrentLocation = mLocations.get(startingPosition);
 
-//        mLocTitleTextView.setText(location);
+        String location_title = mCurrentLocation.getTitle();
+
 
         mLocTitleTextView.setText(location_title);
 
@@ -80,7 +81,7 @@ public class WeatherActivity extends AppCompatActivity {
 //            }
 //        });
 
-        weatherService.findForecast(woeid, new Callback() {
+        weatherService.findForecast(mCurrentLocation.getWoeid(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {
                 e.printStackTrace();

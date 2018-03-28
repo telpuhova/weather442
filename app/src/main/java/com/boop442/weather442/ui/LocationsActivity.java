@@ -16,6 +16,7 @@ import android.widget.Toast;
 
 import com.boop442.weather442.Constants;
 import com.boop442.weather442.R;
+import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
@@ -57,12 +58,12 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         locations.add(new Location("Moscow", "123"));
         locations.add(new Location("Portland", "456"));
 
-
         mAdapter = new LocationListAdapter(locations, getApplicationContext());
         mRecyclerView.setAdapter(mAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
+
 
         mAddButton.setOnClickListener(this);
     }
@@ -114,6 +115,13 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                 Log.d("LOCATIONS_ACTIVITY", mWoeid);
                 locationObject.setWoeid(mWoeid);
                 locations.add(locationObject);
+                //displaying asynchronously in a ui thread
+                LocationsActivity.this.runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter.notifyDataSetChanged();
+                    }
+                });
             }
         });
 
