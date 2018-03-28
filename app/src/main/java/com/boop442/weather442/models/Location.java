@@ -1,12 +1,18 @@
 package com.boop442.weather442.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by boop442 on 3/23/2018.
  */
 
+@Parcel
 public class Location {
-    private String title;
-    private String woeid;
+    String title;
+    String woeid;
+
+    public Location() {
+    }
 
     public Location(String title, String woeid) {
         this.title = title;

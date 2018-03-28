@@ -2,6 +2,7 @@ package com.boop442.weather442.adapters;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,17 +25,22 @@ import butterknife.ButterKnife;
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.LocationViewHolder>{
     private ArrayList<Location> mLocations = new ArrayList<>();
     Context mContext;
-    private final OnItemClickListener listener;
+//    private final OnItemClickListener listener;
 
-    public interface OnItemClickListener {
-        void onItemClick(Location item, Context context);
-    }
+//    public interface OnItemClickListener {
+//        void onItemClick(Location item, Context context);
+//    }
 
 
-    public LocationListAdapter(ArrayList<Location> mLocations, Context mContext, OnItemClickListener listener) {
+//    public LocationListAdapter(ArrayList<Location> mLocations, Context mContext, OnItemClickListener listener) {
+//        this.mLocations = mLocations;
+//        this.mContext = mContext;
+//        this.listener = listener;
+//    }
+
+    public LocationListAdapter(ArrayList<Location> mLocations, Context mContext) {
         this.mLocations = mLocations;
         this.mContext = mContext;
-        this.listener = listener;
     }
 
 //    @Override
@@ -52,7 +58,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     @Override
     public void onBindViewHolder(LocationListAdapter.LocationViewHolder holder, int position) {
         holder.bindLocation(mLocations.get(position));
-        holder.bind(mLocations.get(position), listener);
+//        holder.bind(mLocations.get(position), listener);
     }
 
     @Override
@@ -61,7 +67,7 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     }
 
 
-    public class LocationViewHolder extends RecyclerView.ViewHolder {
+    public class LocationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
 
         @BindView(R.id.locationTextView) TextView mLocationTextView;
         private Context mContext;
@@ -70,18 +76,25 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
+
+            itemView.setOnClickListener(this);
         }
 
         public void bindLocation(Location location) {
             mLocationTextView.setText(location.getTitle());
         }
 
-        public void bind(final Location item, final OnItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override public void onClick(View v) {
-                    listener.onItemClick(item, mContext);
-                }
-            });
+//        public void bind(final Location item, final OnItemClickListener listener) {
+//            itemView.setOnClickListener(new View.OnClickListener() {
+//                @Override public void onClick(View v) {
+//                    listener.onItemClick(item, mContext);
+//                }
+//            });
+//        }
+
+        public void onClick(View v) {
+            int itemPosition = getLayoutPosition();
+            Log.d("CLICKED----------------", "CLIIIIIIIIIICKED");
         }
     }
 }

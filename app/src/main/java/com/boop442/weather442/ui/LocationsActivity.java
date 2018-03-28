@@ -43,15 +43,15 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
 
 
-        mRecyclerView.setAdapter(new LocationListAdapter(locations, getApplicationContext(), new LocationListAdapter.OnItemClickListener() {
-            @Override public void onItemClick(Location item, Context context) {
-                Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
-            }
-        }));
+//        mRecyclerView.setAdapter(new LocationListAdapter(locations, getApplicationContext(), new LocationListAdapter.OnItemClickListener() {
+//            @Override public void onItemClick(Location item, Context context) {
+//                Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
+//            }
+//        }));
 
 
-//        mAdapter = new LocationListAdapter(locations, getApplicationContext());
-//        mRecyclerView.setAdapter(mAdapter);
+        mAdapter = new LocationListAdapter(locations, getApplicationContext());
+        mRecyclerView.setAdapter(mAdapter);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
