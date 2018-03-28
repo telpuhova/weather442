@@ -65,20 +65,20 @@ public class WeatherActivity extends AppCompatActivity {
         Log.v("WEATHER_ACTIVITY", "getForecast function");
 
 
-        weatherService.getWoeid(location, new Callback() {
-
-            @Override
-            public void onFailure(Call call, IOException e) {
-                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
-                e.printStackTrace();
-            }
-
-            @Override
-            public void onResponse(Call call, Response response) throws IOException {
-                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
-                woeid = String.valueOf(MetaWeatherService.processWoeidCall(response));
-            }
-        });
+//        weatherService.getWoeid(location, new Callback() {
+//
+//            @Override
+//            public void onFailure(Call call, IOException e) {
+//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
+//                e.printStackTrace();
+//            }
+//
+//            @Override
+//            public void onResponse(Call call, Response response) throws IOException {
+//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
+//                woeid = String.valueOf(MetaWeatherService.processWoeidCall(response));
+//            }
+//        });
 
         weatherService.findForecast(woeid, new Callback() {
             @Override

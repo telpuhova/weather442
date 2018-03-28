@@ -18,28 +18,29 @@ import com.boop442.weather442.Constants;
 import com.boop442.weather442.R;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Location;
+import com.boop442.weather442.services.MetaWeatherService;
 
 import org.parceler.Parcels;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
+import okhttp3.Call;
+import okhttp3.Callback;
+import okhttp3.Response;
 
 public class LocationsActivity extends AppCompatActivity implements View.OnClickListener, DialogInterface.OnDismissListener {
 
     private SharedPreferences mSharedPreferences;
     private String mRecentLocation;
 
-//    private SharedPreferences mSharedPreferences;
-//    private SharedPreferences.Editor mEditor;
-
-
-//    @BindView(R.id.locationsListView) ListView mLocationsListView;
     @BindView(R.id.addButton) Button mAddButton;
 
 
+    String mWoeid = "";
     String[] locationsTest = new String[] {"Portland", "Moscow", "Berlin", "44418", "London"};
     ArrayList<Location> locations = new ArrayList<>();
 
@@ -53,18 +54,8 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_locations);
         ButterKnife.bind(this);
 
-//        LocationsArrayAdapter adapter = new LocationsArrayAdapter(this, android.R.layout.simple_list_item_1, locations);
-//        mLocationsListView.setAdapter(adapter);
         locations.add(new Location("Moscow", "123"));
         locations.add(new Location("Portland", "456"));
-
-
-
-//        mRecyclerView.setAdapter(new LocationListAdapter(locations, getApplicationContext(), new LocationListAdapter.OnItemClickListener() {
-//            @Override public void onItemClick(Location item, Context context) {
-//                Toast.makeText(context, item.getTitle(), Toast.LENGTH_LONG).show();
-//            }
-//        }));
 
 
         mAdapter = new LocationListAdapter(locations, getApplicationContext());
@@ -73,39 +64,23 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setHasFixedSize(true);
 
-
-
-
         mAddButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick (View v) {
-//        Log.d("TEST-------------------", "TEST");
+
         if (v == mAddButton) {
-
-
 
 //            Bundle bundle = new Bundle();
 //            bundle.putParcelable("locationObject", Parcels.wrap(newLocation));
 //            bundle.putString("dataToShow", dataToShow);
 
-
-
             FragmentManager fm = getFragmentManager();
             AddLocationDialogFragment addLocationDialogFragment = new AddLocationDialogFragment();
 //            addLocationDialogFragment.setArguments(bundle);
             addLocationDialogFragment.show(fm, "Sample Fragment");
-
-//            addLocationDialogFragment.onDismiss(addLocationDialogFragment);
-
         }
-
-//        if (v == mSubmitButton) {
-//            mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//            mRecentLocation = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-//            Log.d("SHARED PREF LOCATION---", mRecentLocation);
-//        }
     }
 
 
@@ -113,16 +88,34 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     public void onDismiss(DialogInterface dialogInterface) {
         Log.d("ON_DISMISS-------------", "--------------------------------");
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-//        mSharedPreferences = getSharedPreferences("numberPicker.preferences", 0);//this is null right now
-
-//        mSharedPreferences.edit().putString(Constants.PREFERENCES_LOCATION_KEY, "wasssssup").apply();
 
         mRecentLocation = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
         Log.d("SHARED PREF LOCATION---", mRecentLocation);
 
 
-        Location newLocation = new Location(mRecentLocation, "123");
-        locations.add(newLocation);
+        final Location locationObject = new Location(mRecentLocation, "123");
+
+
+
+        final MetaWeatherService weatherService = new MetaWeatherService();
+
+        weatherService.getWoeid(mRecentLocation, new Callback() {
+
+            @Override
+            public void onFailure(Call call, IOException e) {
+                Log.v("LOCATIONS_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) throws IOException {
+                Log.v("LOCATIONS_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
+                mWoeid = MetaWeatherService.processWoeidCall(response);
+                Log.d("LOCATIONS_ACTIVITY", mWoeid);
+                locationObject.setWoeid(mWoeid);
+                locations.add(locationObject);
+            }
+        });
 
     }
 }

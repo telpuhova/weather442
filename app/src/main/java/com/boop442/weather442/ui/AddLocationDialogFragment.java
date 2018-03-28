@@ -32,7 +32,7 @@ public class AddLocationDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        mContext = getContext();
+
         Context context = getActivity().getApplicationContext();
 
 //        mSharedPreferences = getActivity().getSharedPreferences("numberPicker.preferences", 0);

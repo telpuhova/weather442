@@ -65,7 +65,7 @@ public class MetaWeatherService {
         call.enqueue(callback);//call.execute() to do it synchronously
     }
 
-    public static int processWoeidCall(Response response) {
+    public static String processWoeidCall(Response response) {
         int woeid = 1;
 
         try {
@@ -82,7 +82,9 @@ public class MetaWeatherService {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return woeid;
+        String woeidStr = String.valueOf(woeid);
+        Log.v("weatherSERVICE_woeid", woeidStr);
+        return woeidStr;
     }
 
     public static ArrayList<Forecast> processResults(Response response) {

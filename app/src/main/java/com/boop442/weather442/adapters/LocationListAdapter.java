@@ -76,7 +76,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
-            Log.d("CLICKED----------------", "CLIIIIIIIIIICKED");
             Intent intent = new Intent(mContext, WeatherActivity.class);
             intent.putExtra("position", itemPosition);
             intent.putExtra("locations", Parcels.wrap(mLocations));
