@@ -26,4 +26,12 @@ public class Location {
     public String getWoeid() {
         return woeid;
     }
+
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public void setWoeid(String woeid) {
+        this.woeid = woeid;
+    }
 }

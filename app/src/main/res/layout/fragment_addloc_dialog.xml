@@ -28,7 +28,8 @@
         android:layout_marginBottom="15dp"
         android:layout_marginLeft="10dp"
         android:hint="city"
-        android:layout_below="@id/addLocationTextView"/>
+        android:layout_below="@id/addLocationTextView"
+        android:text="Detroit"/>
 
     <Button
         android:id="@+id/submitButton"
