@@ -2,6 +2,7 @@ package com.boop442.weather442.ui;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
@@ -20,6 +21,11 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class LocationsActivity extends AppCompatActivity implements View.OnClickListener{
+
+    private SharedPreferences mSharedPreferences;
+    private SharedPreferences.Editor mEditor;
+
+
 //    @BindView(R.id.locationsListView) ListView mLocationsListView;
     @BindView(R.id.addButton) Button mAddButton;
 
@@ -57,27 +63,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         mRecyclerView.setHasFixedSize(true);
 
 
-//        mRecyclerView.setOnClickListener(new AdapterView.OnClickListener() {
-//            @Override
-//            public void onClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(LocationsActivity.this, WeatherActivity.class);
-////                intent.putExtra("location", locations.get(position).getClass());
-//                intent.putExtra("location_title", locations.get(position).getTitle());
-//                intent.putExtra("location_woeid", locations.get(position).getWoeid());
-//                startActivity(intent);
-//            }
-//        });
 
-//        mLocationsListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                Intent intent = new Intent(LocationsActivity.this, WeatherActivity.class);
-////                intent.putExtra("location", locations.get(position).getClass());
-//                intent.putExtra("location_title", locations.get(position).getTitle());
-//                intent.putExtra("location_woeid", locations.get(position).getWoeid());
-//                startActivity(intent);
-//            }
-//        });
 
         mAddButton.setOnClickListener(this);
     }
@@ -96,5 +82,9 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
             AddLocationDialogFragment moodDialogFragment = new AddLocationDialogFragment();
             moodDialogFragment.show(fm, "Sample Fragment");
         }
+    }
+
+    private void addToSharedPreferences(String location) {
+
     }
 }

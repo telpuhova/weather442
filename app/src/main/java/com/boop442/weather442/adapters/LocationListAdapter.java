@@ -1,6 +1,7 @@
 package com.boop442.weather442.adapters;
 
 import android.content.Context;
+import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -12,6 +13,10 @@ import android.widget.Toast;
 import com.boop442.weather442.R;
 import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
+import com.boop442.weather442.ui.LocationsActivity;
+import com.boop442.weather442.ui.WeatherActivity;
+
+import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
@@ -25,28 +30,13 @@ import butterknife.ButterKnife;
 public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapter.LocationViewHolder>{
     private ArrayList<Location> mLocations = new ArrayList<>();
     Context mContext;
-//    private final OnItemClickListener listener;
 
-//    public interface OnItemClickListener {
-//        void onItemClick(Location item, Context context);
-//    }
-
-
-//    public LocationListAdapter(ArrayList<Location> mLocations, Context mContext, OnItemClickListener listener) {
-//        this.mLocations = mLocations;
-//        this.mContext = mContext;
-//        this.listener = listener;
-//    }
 
     public LocationListAdapter(ArrayList<Location> mLocations, Context mContext) {
         this.mLocations = mLocations;
         this.mContext = mContext;
     }
 
-//    @Override
-//    public void onItemClick(Location item, Context context) {
-//        Toast.makeText(context, "Item Clicked", Toast.LENGTH_LONG).show();
-//    }
 
     @Override
     public LocationListAdapter.LocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -58,7 +48,6 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
     @Override
     public void onBindViewHolder(LocationListAdapter.LocationViewHolder holder, int position) {
         holder.bindLocation(mLocations.get(position));
-//        holder.bind(mLocations.get(position), listener);
     }
 
     @Override
@@ -84,17 +73,14 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
             mLocationTextView.setText(location.getTitle());
         }
 
-//        public void bind(final Location item, final OnItemClickListener listener) {
-//            itemView.setOnClickListener(new View.OnClickListener() {
-//                @Override public void onClick(View v) {
-//                    listener.onItemClick(item, mContext);
-//                }
-//            });
-//        }
 
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
             Log.d("CLICKED----------------", "CLIIIIIIIIIICKED");
+            Intent intent = new Intent(mContext, WeatherActivity.class);
+            intent.putExtra("position", itemPosition);
+            intent.putExtra("locations", Parcels.wrap(mLocations));
+            mContext.startActivity(intent);
         }
     }
 }

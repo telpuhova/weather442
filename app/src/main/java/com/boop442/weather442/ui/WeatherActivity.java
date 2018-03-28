@@ -13,7 +13,10 @@ import android.widget.TextView;
 import com.boop442.weather442.R;
 import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.models.Forecast;
+import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
+
+import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,11 +32,13 @@ public class WeatherActivity extends AppCompatActivity {
 //    @BindView(R.id.listView) ListView mListView;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
+    @BindView(R.id.locTitleTextView) TextView mLocTitleTextView;
     private ForecastListAdapter mAdapter;
 
     String woeid = "44418";
     ArrayList<Forecast> forecasts = new ArrayList<>();
     String[] forecastsDatesTest = {"123", "234", "345", "456", "567", "678"};
+    ArrayList<Location> mLocations = new ArrayList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,12 +47,15 @@ public class WeatherActivity extends AppCompatActivity {
 
         ButterKnife.bind(this);
 
-        Intent intent = getIntent();
+        mLocations = Parcels.unwrap(getIntent().getParcelableExtra("locations"));
+        int startingPosition = getIntent().getIntExtra("position", 0);
 
-        String location_title = intent.getStringExtra("location_title").toString();
-        String location_woeid = intent.getStringExtra("location_woeid").toString();
+        String location_title = mLocations.get(startingPosition).getTitle();
+        String location_woeid = mLocations.get(startingPosition).getWoeid();
 
 //        mLocTitleTextView.setText(location);
+
+        mLocTitleTextView.setText(location_title);
 
         getForecast(location_title);
     }
