@@ -2,20 +2,14 @@ package com.boop442.weather442.ui;
 
 import android.app.FragmentManager;
 import android.content.Context;
-import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.ListView;
 import android.widget.Toast;
 
-import com.boop442.weather442.AddLocationDialogFragment;
-import com.boop442.weather442.LocationsArrayAdapter;
-import com.boop442.weather442.OnItemClickListener;
 import com.boop442.weather442.R;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Location;

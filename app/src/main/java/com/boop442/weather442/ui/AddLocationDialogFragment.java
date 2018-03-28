@@ -1,4 +1,4 @@
-package com.boop442.weather442;
+package com.boop442.weather442.ui;
 
 import android.app.DialogFragment;
 import android.os.Bundle;
@@ -9,6 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.boop442.weather442.R;
+
 /**
  * Created by boop442 on 3/16/2018.
  */
@@ -17,7 +19,7 @@ public class AddLocationDialogFragment extends DialogFragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        final View rootView = inflater.inflate(R.layout.fragment_mood_dialog, container, false);
+        final View rootView = inflater.inflate(R.layout.fragment_addloc_dialog, container, false);
 
         Button cancelButton = (Button) rootView.findViewById(R.id.cancelButton);
         Button submitButton = (Button) rootView.findViewById(R.id.submitButton);
