@@ -2,6 +2,9 @@ package com.boop442.weather442.models;
 
 import org.parceler.Parcel;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * Created by boop442 on 3/23/2018.
  */
@@ -10,6 +13,7 @@ import org.parceler.Parcel;
 public class Location {
     String title;
     String woeid;
+    List<Forecast> forecasts = new ArrayList<>();
 
     public Location() {
     }
@@ -17,6 +21,20 @@ public class Location {
     public Location(String title, String woeid) {
         this.title = title;
         this.woeid = woeid;
+    }
+
+    public Location(String title, String woeid, List<Forecast> forecasts) {
+        this.title = title;
+        this.woeid = woeid;
+        this.forecasts = forecasts;
+    }
+
+    public List<Forecast> getForecasts() {
+        return forecasts;
+    }
+
+    public void setForecasts(List<Forecast> forecasts) {
+        this.forecasts = forecasts;
     }
 
     public String getTitle() {
