@@ -9,6 +9,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 
 import com.boop442.weather442.R;
@@ -31,10 +32,11 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 
-public class ForecastDetailFragment extends Fragment {
+public class ForecastDetailFragment extends Fragment implements View.OnClickListener{
 
     @BindView(R.id.recyclerViewFDF) RecyclerView mRecyclerView;
     @BindView(R.id.locTitleTextViewFDF) TextView mTextView;
+    @BindView(R.id.refreshButton) Button mRefreshButton;
 
 //    FirebaseDatabase database = FirebaseDatabase.getInstance();
 //    DatabaseReference ref = database.getReference();
@@ -55,8 +57,6 @@ public class ForecastDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         mCurrentLocation = Parcels.unwrap(getArguments().getParcelable("location"));
-
-        getForecast(mCurrentLocation.getTitle());
     }
 
     @Override
@@ -65,6 +65,8 @@ public class ForecastDetailFragment extends Fragment {
         ButterKnife.bind(this, view);
 
         mTextView.setText(mCurrentLocation.getTitle());
+
+        mRefreshButton.setOnClickListener(this);
 
 //        Picasso.with(view.getContext()).load(mRestaurant.getImageUrl()).into(mImageLabel);
 
@@ -77,26 +79,18 @@ public class ForecastDetailFragment extends Fragment {
         return view;
     }
 
-    private void getForecast(String location) {
+    @Override
+    public void onClick(View view) {
+        if (view == mRefreshButton) {
+            getForecast();
+        }
+    }
+
+    private void getForecast() {
         final MetaWeatherService weatherService = new MetaWeatherService();
         Log.v("WEATHER_ACTIVITY", "getForecast function");
 
-
-//        weatherService.getWoeid(location, new Callback() {
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
-//                woeid = String.valueOf(MetaWeatherService.processWoeidCall(response));
-//            }
-//        });
-
+        //API call
         weatherService.findForecast(mCurrentLocation.getWoeid(), new Callback() {
             @Override
             public void onFailure(Call call, IOException e) {

@@ -44,17 +44,15 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private String mRecentLocation;
 
     @BindView(R.id.addButton) Button mAddButton;
-
+    @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
 
     private DatabaseReference mLocationsReference;
     private FirebaseRecyclerAdapter mFirebaseAdapter;
 
     String mWoeid = "";
-    String[] locationsTest = new String[] {"Portland", "Moscow", "Berlin", "44418", "London"};
     ArrayList<Location> locations = new ArrayList<>();
-
-    @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
     private LocationListAdapter mAdapter;
+
 
 
     @Override
@@ -124,16 +122,11 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onDismiss(DialogInterface dialogInterface) {
-        Log.d("ON_DISMISS-------------", "--------------------------------");
+
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
-
         mRecentLocation = mSharedPreferences.getString(Constants.PREFERENCES_LOCATION_KEY, null);
-        Log.d("SHARED PREF LOCATION---", mRecentLocation);
-
 
         final Location locationObject = new Location(mRecentLocation, "123");
-
-
 
         final MetaWeatherService weatherService = new MetaWeatherService();
 
@@ -152,18 +145,11 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                 Log.d("LOCATIONS_ACTIVITY", mWoeid);
                 locationObject.setWoeid(mWoeid);
                 locations.add(locationObject);
-                //displaying asynchronously in a ui thread
-                LocationsActivity.this.runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter.notifyDataSetChanged();
-                    }
-                });
+
 
                 //write to firebase
                 DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
                 locationsRef.push().setValue(locationObject);//push location to database
-
             }
         });
 
