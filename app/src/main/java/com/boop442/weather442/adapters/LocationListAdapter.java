@@ -13,6 +13,7 @@ import android.widget.Toast;
 import com.boop442.weather442.R;
 import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
+import com.boop442.weather442.ui.ForecastDetailActivity;
 import com.boop442.weather442.ui.LocationsActivity;
 import com.boop442.weather442.ui.WeatherActivity;
 
@@ -76,10 +77,11 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
 
         public void onClick(View v) {
             int itemPosition = getLayoutPosition();
-            Intent intent = new Intent(mContext, WeatherActivity.class);
+            Intent intent = new Intent(mContext, ForecastDetailActivity.class);
             intent.putExtra("position", itemPosition);
             intent.putExtra("locations", Parcels.wrap(mLocations));
             mContext.startActivity(intent);
+
         }
     }
 }

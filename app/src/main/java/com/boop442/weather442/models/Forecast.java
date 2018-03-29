@@ -1,19 +1,25 @@
 package com.boop442.weather442.models;
 
+import org.parceler.Parcel;
+
 /**
  * Created by boop442 on 3/22/2018.
  */
 
+@Parcel
 public class Forecast {
-    private String date;
-    private String state;
-    private double t;
-    private double min_t;
-    private double max_t;
-    private String wind_dir;
-    private double wind_speed;
-    private int humidity;
-    private double air_pressure;
+    String date;
+    String state;
+    double t;
+    double min_t;
+    double max_t;
+    String wind_dir;
+    double wind_speed;
+    int humidity;
+    double air_pressure;
+
+    public Forecast() {
+    }
 
     public Forecast(String date, String state, double t, double min_t, double max_t, String wind_dir, double wind_speed, int humidity, double air_pressure) {
         this.date = date;
