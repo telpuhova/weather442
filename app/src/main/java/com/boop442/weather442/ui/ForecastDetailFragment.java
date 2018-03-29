@@ -16,6 +16,8 @@ import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 import org.parceler.Parcels;
 
@@ -33,6 +35,9 @@ public class ForecastDetailFragment extends Fragment {
 
     @BindView(R.id.recyclerViewFDF) RecyclerView mRecyclerView;
     @BindView(R.id.locTitleTextViewFDF) TextView mTextView;
+
+//    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//    DatabaseReference ref = database.getReference();
 
     private Location mCurrentLocation;
     private ArrayList<Forecast> forecasts;

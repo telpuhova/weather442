@@ -16,10 +16,15 @@ import android.widget.Toast;
 
 import com.boop442.weather442.Constants;
 import com.boop442.weather442.R;
+import com.boop442.weather442.adapters.FirebaseLocationViewHolder;
 import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
+import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 
 import org.parceler.Parcels;
 
@@ -41,6 +46,9 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.addButton) Button mAddButton;
 
 
+    private DatabaseReference mLocationsReference;
+    private FirebaseRecyclerAdapter mFirebaseAdapter;
+
     String mWoeid = "";
     String[] locationsTest = new String[] {"Portland", "Moscow", "Berlin", "44418", "London"};
     ArrayList<Location> locations = new ArrayList<>();
@@ -55,17 +63,40 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_locations);
         ButterKnife.bind(this);
 
-        locations.add(new Location("Moscow", "123"));
-        locations.add(new Location("Portland", "456"));
+//        locations.add(new Location("Moscow", "2122265"));
+//        locations.add(new Location("Portland", "2475687"));
 
-        mAdapter = new LocationListAdapter(locations, getApplicationContext());
-        mRecyclerView.setAdapter(mAdapter);
-        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
-        mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setHasFixedSize(true);
+//        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+//        locationsRef.push().setValue(locations.get(0));//push location to database
+//        locationsRef.push().setValue(locations.get(1));//push location to database
+
+        mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+        setUpFirebaseAdapter();
+
+//        mAdapter = new LocationListAdapter(locations, getApplicationContext());
+//        mRecyclerView.setAdapter(mAdapter);
+//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
+//        mRecyclerView.setLayoutManager(layoutManager);
+//        mRecyclerView.setHasFixedSize(true);
 
 
         mAddButton.setOnClickListener(this);
+    }
+
+    public void setUpFirebaseAdapter() {
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>
+                (Location.class, R.layout.location_list_item, FirebaseLocationViewHolder.class,
+                        mLocationsReference) {
+
+            @Override
+            protected void populateViewHolder(FirebaseLocationViewHolder viewHolder,
+                                              Location model, int position) {
+                viewHolder.bindLocation(model);
+            }
+        };
+        mRecyclerView.setHasFixedSize(true);
+        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+        mRecyclerView.setAdapter(mFirebaseAdapter);
     }
 
     @Override
@@ -82,6 +113,12 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //            addLocationDialogFragment.setArguments(bundle);
             addLocationDialogFragment.show(fm, "Sample Fragment");
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        mFirebaseAdapter.cleanup();
     }
 
 
@@ -122,6 +159,11 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                         mAdapter.notifyDataSetChanged();
                     }
                 });
+
+                //write to firebase
+                DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+                locationsRef.push().setValue(locationObject);//push location to database
+
             }
         });
 
