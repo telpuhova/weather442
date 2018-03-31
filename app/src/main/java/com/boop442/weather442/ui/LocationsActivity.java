@@ -19,17 +19,22 @@ import com.boop442.weather442.R;
 import com.boop442.weather442.adapters.FirebaseLocationViewHolder;
 import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.adapters.LocationListAdapter;
+import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 
 import org.parceler.Parcels;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import butterknife.BindView;
@@ -42,6 +47,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
     private SharedPreferences mSharedPreferences;
     private String mRecentLocation;
+    private List<Forecast> mForecasts = new ArrayList<>();
 
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
@@ -144,14 +150,98 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                 mWoeid = MetaWeatherService.processWoeidCall(response);
                 Log.d("LOCATIONS_ACTIVITY", mWoeid);
                 locationObject.setWoeid(mWoeid);
-                locations.add(locationObject);
+//                locations.add(locationObject);
+
+
+//                getForecast(mWoeid);
+
+
+
+                final MetaWeatherService weatherService = new MetaWeatherService();
+                Log.v("WEATHER_ACTIVITY", "getForecast function");
+
+                //second API call
+                weatherService.findForecast(mWoeid, new Callback() {
+                    @Override
+                    public void onFailure(Call call, IOException e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onResponse(Call call, Response response) {
+                        mForecasts = MetaWeatherService.processResults(response);
+                        Log.d("AAAAAAAAAAAAAAAAAAAAAAA", "-----------------------------------------------");
+                        Log.d("AAAAAAAAAAAAAAAAA------", mForecasts.toString());
+                        Log.d("AAA--------------------", mForecasts.get(0).toString());
+
+
+                        //add to list
+                        locationObject.setForecasts(mForecasts);
+                        locations.add(locationObject);
+
+                        //write to firebase
+                        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+                        locationsRef.push().setValue(locationObject);//push location to database
+
+                    }
+                });
+
 
 
                 //write to firebase
-                DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-                locationsRef.push().setValue(locationObject);//push location to database
+//                DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+//                locationsRef.push().setValue(locationObject);//push location to database
             }
         });
 
+    }
+
+    private void getForecast(String woeid) {
+
+
+        final MetaWeatherService weatherService = new MetaWeatherService();
+        Log.v("WEATHER_ACTIVITY", "getForecast function");
+
+        //API call
+        weatherService.findForecast(woeid, new Callback() {
+            @Override
+            public void onFailure(Call call, IOException e) {
+                e.printStackTrace();
+            }
+
+            @Override
+            public void onResponse(Call call, Response response) {
+                mForecasts = MetaWeatherService.processResults(response);
+                Log.d("LOCATIONSACT_FORECASTS-", mForecasts.toString());
+
+//                //displaying asynchronously in a ui thread
+//                getActivity().runOnUiThread(new Runnable() {
+//                    @Override
+//                    public void run() {
+//                        Log.d("RUN--------------------", getContext().toString());
+//                        mAdapter = new ForecastListAdapter(forecasts, getContext());
+//                        mRecyclerView.setAdapter(mAdapter);
+//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+//                        mRecyclerView.setLayoutManager(layoutManager);
+//                        mRecyclerView.setHasFixedSize(true);
+//
+//                        //write to firebase
+//                        FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_CHILD_LOCATIONS)
+//                                .addListenerForSingleValueEvent(new ValueEventListener() {
+//                                    @Override
+//                                    public void onDataChange(DataSnapshot dataSnapshot) {
+//                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                                            Location location = snapshot.getValue(Location.class);
+//                                            System.out.println(location.getTitle());
+//                                        }
+//                                    }
+//                                    @Override
+//                                    public void onCancelled(DatabaseError databaseError) {
+//                                    }
+//                                });
+//                    }
+//                });
+            }
+        });
     }
 }
