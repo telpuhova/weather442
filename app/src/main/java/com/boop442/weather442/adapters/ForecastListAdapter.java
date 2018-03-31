@@ -22,10 +22,10 @@ import butterknife.ButterKnife;
  */
 
 public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapter.ForecastViewHolder> {
-    private ArrayList<Forecast> mForecasts = new ArrayList<>();
+    private List<Forecast> mForecasts = new ArrayList<>();
     Context mContext;
 
-    public ForecastListAdapter(ArrayList<Forecast> mForecasts, Context mContext) {
+    public ForecastListAdapter(List<Forecast> mForecasts, Context mContext) {
         this.mForecasts = mForecasts;
         this.mContext = mContext;
     }

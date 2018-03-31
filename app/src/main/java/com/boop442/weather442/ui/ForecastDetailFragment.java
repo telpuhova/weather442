@@ -73,6 +73,8 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
 
         mRefreshButton.setOnClickListener(this);
 
+        displayForecasts();
+
 //        Picasso.with(view.getContext()).load(mRestaurant.getImageUrl()).into(mImageLabel);
 
 //        mNameLabel.setText(mRestaurant.getName());
@@ -87,69 +89,32 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
     @Override
     public void onClick(View view) {
         if (view == mRefreshButton) {
-//            getForecast();
+
+            getActivity().runOnUiThread(new Runnable() {
+                @Override
+                public void run() {
+                    Log.d("RUN--------------------", getContext().toString());
+                    mAdapter = new ForecastListAdapter(mCurrentLocation.getForecasts(), getContext());
+                    mRecyclerView.setAdapter(mAdapter);
+                    RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                    mRecyclerView.setLayoutManager(layoutManager);
+                    mRecyclerView.setHasFixedSize(true);
+                }
+            });
         }
     }
 
-//    private void getForecast() {
-//        final MetaWeatherService weatherService = new MetaWeatherService();
-//        Log.v("WEATHER_ACTIVITY", "getForecast function");
-//
-//        //API call
-//        weatherService.findForecast(mCurrentLocation.getWoeid(), new Callback() {
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) {
-//                forecasts = MetaWeatherService.processResults(response);
-//                Log.d("FDFRAGMENT_FORECASTS---", forecasts.toString());
-//
-//                //displaying asynchronously in a ui thread
-//                getActivity().runOnUiThread(new Runnable() {
-//                    @Override
-//                    public void run() {
-//                        Log.d("RUN--------------------", getContext().toString());
-//                        mAdapter = new ForecastListAdapter(forecasts, getContext());
-//                        mRecyclerView.setAdapter(mAdapter);
-//                        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
-//                        mRecyclerView.setLayoutManager(layoutManager);
-//                        mRecyclerView.setHasFixedSize(true);
-//
-//                        //write to firebase
-//                        Log.d("TEST1------------------", "---------------------------------------------");
-////                        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-////                        Log.d("TEST2------------------", "---------------------------------------------");
-////                        locationsRef.push().setValue(forecasts);//push location to database
-////                        Log.d("TEST3------------------", "---------------------------------------------");
-////
-//////                        Iterator i = dataSnaphot.getChildren().iterator();
-//////                        i.next();
-////
-////
-////
-////                        DataSnapshot firstChild = dataSnapshot.getChildren().iterator().next();
-//
-//
-//                        FirebaseDatabase.getInstance().getReference().child(Constants.FIREBASE_CHILD_LOCATIONS)
-//                                .addListenerForSingleValueEvent(new ValueEventListener() {
-//                                    @Override
-//                                    public void onDataChange(DataSnapshot dataSnapshot) {
-//                                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-//                                            Location location = snapshot.getValue(Location.class);
-//                                            System.out.println(location.getTitle());
-//                                        }
-//                                    }
-//                                    @Override
-//                                    public void onCancelled(DatabaseError databaseError) {
-//                                    }
-//                                });
-//                    }
-//                });
-//            }
-//        });
-//    }
-
+    public void displayForecasts() {
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                Log.d("RUN--------------------", getContext().toString());
+                mAdapter = new ForecastListAdapter(mCurrentLocation.getForecasts(), getContext());
+                mRecyclerView.setAdapter(mAdapter);
+                RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
+                mRecyclerView.setLayoutManager(layoutManager);
+                mRecyclerView.setHasFixedSize(true);
+            }
+        });
+    }
 }
