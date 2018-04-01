@@ -19,9 +19,11 @@
         android:id="@+id/locationsButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_centerHorizontal="true"
-        android:layout_centerVertical="true"
-        android:text="start" />
+        android:layout_alignParentRight="true"
+
+        android:text="start"
+        android:layout_below="@id/titleTextView"
+        android:layout_marginTop="50dp"/>
 
     <Button
         android:id="@+id/aboutButton"
@@ -30,6 +32,19 @@
         android:layout_alignParentBottom="true"
         android:layout_alignParentRight="true"
         android:text="about" />
+
+
+
+    <TextView
+        android:id="@+id/creditTextView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_marginBottom="5dp"
+        android:text="Photo by Filip Zrnzević on Unsplash"
+        android:textSize="10dp"
+        android:textColor="@color/colorPrimaryLight"/>
 
 
 </RelativeLayout>
