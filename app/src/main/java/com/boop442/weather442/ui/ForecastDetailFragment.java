@@ -78,10 +78,6 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
 //        Picasso.with(view.getContext()).load(mRestaurant.getImageUrl()).into(mImageLabel);
 
 //        mNameLabel.setText(mRestaurant.getName());
-//        mCategoriesLabel.setText(android.text.TextUtils.join(", ", mRestaurant.getCategories()));
-//        mRatingLabel.setText(Double.toString(mRestaurant.getRating()) + "/5");
-//        mPhoneLabel.setText(mRestaurant.getPhone());
-//        mAddressLabel.setText(android.text.TextUtils.join(", ", mRestaurant.getAddress()));
 
         return view;
     }
