@@ -32,7 +32,7 @@ If you have any issues or have questions, ideas or concerns please email telpuho
 
 ## Technologies Used
 
-Java, XML, Android Studio
+Java, XML, Android Studio, MetaWeather API, Firebase
 
 ### License
 
