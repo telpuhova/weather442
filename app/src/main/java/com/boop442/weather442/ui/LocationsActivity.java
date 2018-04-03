@@ -26,6 +26,8 @@ import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
 import com.firebase.ui.database.FirebaseRecyclerOptions;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -79,9 +81,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //        locationsRef.push().setValue(locations.get(0));//push location to database
 //        locationsRef.push().setValue(locations.get(1));//push location to database
 
-        mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-        locationQuery = mLocationsReference.getRef();
-        setUpFirebaseAdapter();
+
 
 //        mAdapter = new LocationListAdapter(locations, getApplicationContext());
 //        mRecyclerView.setAdapter(mAdapter);
@@ -89,6 +89,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //        mRecyclerView.setLayoutManager(layoutManager);
 //        mRecyclerView.setHasFixedSize(true);
 
+        setUpFirebaseAdapter();
 
         mAddButton.setOnClickListener(this);
     }
@@ -110,6 +111,22 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //    }
 
     public void setUpFirebaseAdapter() {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        //REMOVE
+//        mLocationsReference = FirebaseDatabase
+//                .getInstance()
+//                .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
+//                .child(uid);
+//        locationQuery = mLocationsReference.getRef().orderByChild(Constants.FIREBASE_CHILD_LOCATIONS);
+//        setUpFirebaseAdapter();
+
+
+
+
+
+
         FirebaseRecyclerOptions options =
                 new FirebaseRecyclerOptions.Builder<Location>()
                         .setQuery(locationQuery, Location.class)
@@ -151,11 +168,6 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-    @Override
-    protected void onDestroy() {
-        super.onDestroy();
-        mFirebaseAdapter.stopListening();
-    }
 
 
     @Override
@@ -214,5 +226,18 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        mFirebaseAdapter.startListening();
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+//        mFirebaseAdapter.setIndexInFirebase();
+        mFirebaseAdapter.stopListening();
     }
 }
