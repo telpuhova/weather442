@@ -40,6 +40,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.boop442.weather442.ui.LocationsActivity" />
         </activity>
+        <activity android:name=".ui.CreateAccountActivity" />
+        <activity android:name=".ui.LoginActivity"></activity>
     </application>
 
 </manifest>

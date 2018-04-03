@@ -3,6 +3,7 @@ package com.boop442.weather442.adapters;
 import android.content.Context;
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
@@ -10,6 +11,8 @@ import com.boop442.weather442.Constants;
 import com.boop442.weather442.R;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.ui.ForecastDetailActivity;
+import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -42,6 +45,9 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
 
     @Override
     public void onClick(View view) {
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
         final ArrayList<Location> locations = new ArrayList<>();
         DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
@@ -63,6 +69,7 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
+                Log.wtf("FireBaseLocationViewHolder------------------------", databaseError.getMessage());
             }
         });
     }

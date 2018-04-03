@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -23,10 +25,12 @@ import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
+import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 
@@ -48,6 +52,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private SharedPreferences mSharedPreferences;
     private String mRecentLocation;
     private List<Forecast> mForecasts = new ArrayList<>();
+    private Query locationQuery;
 
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
@@ -75,6 +80,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //        locationsRef.push().setValue(locations.get(1));//push location to database
 
         mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+        locationQuery = mLocationsReference.getRef();
         setUpFirebaseAdapter();
 
 //        mAdapter = new LocationListAdapter(locations, getApplicationContext());
@@ -87,14 +93,40 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         mAddButton.setOnClickListener(this);
     }
 
+//    public void setUpFirebaseAdapter() {
+//        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>
+//                (Location.class, R.layout.location_list_item, FirebaseLocationViewHolder.class,
+//                        mLocationsReference) {
+//
+//            @Override
+//            protected void populateViewHolder(FirebaseLocationViewHolder viewHolder,
+//                                              Location model, int position) {
+//                viewHolder.bindLocation(model);
+//            }
+//        };
+//        mRecyclerView.setHasFixedSize(true);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        mRecyclerView.setAdapter(mFirebaseAdapter);
+//    }
+
     public void setUpFirebaseAdapter() {
+        FirebaseRecyclerOptions options =
+                new FirebaseRecyclerOptions.Builder<Location>()
+                        .setQuery(locationQuery, Location.class)
+                        .build();
+
         mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>
-                (Location.class, R.layout.location_list_item, FirebaseLocationViewHolder.class,
-                        mLocationsReference) {
+                (options) {
 
             @Override
-            protected void populateViewHolder(FirebaseLocationViewHolder viewHolder,
-                                              Location model, int position) {
+            public FirebaseLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+                View view = LayoutInflater.from(parent.getContext())
+                        .inflate(R.layout.location_list_item, parent, false);
+                return new FirebaseLocationViewHolder(view);
+            }
+
+            @Override
+            protected void onBindViewHolder(FirebaseLocationViewHolder viewHolder, int position, Location model) {
                 viewHolder.bindLocation(model);
             }
         };
@@ -122,7 +154,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        mFirebaseAdapter.cleanup();
+        mFirebaseAdapter.stopListening();
     }
 
 
