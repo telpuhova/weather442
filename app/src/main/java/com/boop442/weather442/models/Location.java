@@ -11,9 +11,9 @@ import java.util.List;
 
 @Parcel
 public class Location {
-    String title;
-    String woeid;
-    List<Forecast> forecasts = new ArrayList<>();
+    private String title;
+    private String woeid;
+    private List<Forecast> forecasts = new ArrayList<>();
 
     public Location() {
     }

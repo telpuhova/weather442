@@ -59,14 +59,12 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
 
-    private DatabaseReference mLocationsReference;
     private FirebaseRecyclerAdapter mFirebaseAdapter;
 
     String mWoeid = "";
     ArrayList<Location> locations = new ArrayList<>();
-    private LocationListAdapter mAdapter;
 
-
+    
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,66 +72,27 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_locations);
         ButterKnife.bind(this);
 
-//        locations.add(new Location("Moscow", "2122265"));
-//        locations.add(new Location("Portland", "2475687"));
-
-//        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-//        locationsRef.push().setValue(locations.get(0));//push location to database
-//        locationsRef.push().setValue(locations.get(1));//push location to database
-
-
-
-//        mAdapter = new LocationListAdapter(locations, getApplicationContext());
-//        mRecyclerView.setAdapter(mAdapter);
-//        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(LocationsActivity.this);
-//        mRecyclerView.setLayoutManager(layoutManager);
-//        mRecyclerView.setHasFixedSize(true);
-
+//        mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+//        locationQuery = mLocationsReference.getRef();
+        //!!!
+        locationQuery = FirebaseDatabase.getInstance()
+                .getReference()
+                .child("locations");
         setUpFirebaseAdapter();
 
         mAddButton.setOnClickListener(this);
     }
 
-//    public void setUpFirebaseAdapter() {
-//        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>
-//                (Location.class, R.layout.location_list_item, FirebaseLocationViewHolder.class,
-//                        mLocationsReference) {
-//
-//            @Override
-//            protected void populateViewHolder(FirebaseLocationViewHolder viewHolder,
-//                                              Location model, int position) {
-//                viewHolder.bindLocation(model);
-//            }
-//        };
-//        mRecyclerView.setHasFixedSize(true);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-//        mRecyclerView.setAdapter(mFirebaseAdapter);
-//    }
 
     public void setUpFirebaseAdapter() {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
 
-        //REMOVE
-//        mLocationsReference = FirebaseDatabase
-//                .getInstance()
-//                .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
-//                .child(uid);
-//        locationQuery = mLocationsReference.getRef().orderByChild(Constants.FIREBASE_CHILD_LOCATIONS);
-//        setUpFirebaseAdapter();
-
-
-
-
-
-
-        FirebaseRecyclerOptions options =
+        FirebaseRecyclerOptions<Location> options =
                 new FirebaseRecyclerOptions.Builder<Location>()
                         .setQuery(locationQuery, Location.class)
                         .build();
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>
-                (options) {
+
+        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>(options) {
 
             @Override
             public FirebaseLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -150,6 +109,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
+
     }
 
     @Override
@@ -194,8 +154,6 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                 mWoeid = MetaWeatherService.processWoeidCall(response);
                 Log.d("LOCATIONS_ACTIVITY", mWoeid);
                 locationObject.setWoeid(mWoeid);
-
-
 
 
                 final MetaWeatherService weatherService = new MetaWeatherService();
