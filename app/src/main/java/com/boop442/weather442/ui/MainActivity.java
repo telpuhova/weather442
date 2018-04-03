@@ -18,7 +18,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
-    @BindView(R.id.locationsButton) Button mHabitsButton;
+    @BindView(R.id.locationsButton) Button mLocationsButton;
     @BindView(R.id.aboutButton) Button mAboutButton;
     @BindView(R.id.titleTextView) TextView mTitleTextView;
 
@@ -34,13 +34,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         Typeface typeface2 = Typeface.createFromAsset(getAssets(), "fonts/Halimun.ttf");
         mTitleTextView.setTypeface(typeface);
 
-        mHabitsButton.setOnClickListener(this);
+        mLocationsButton.setOnClickListener(this);
         mAboutButton.setOnClickListener(this);
     }
 
     @Override
     public void onClick(View v) {
-        if (v == mHabitsButton) {
+        if (v == mLocationsButton) {
+            FirebaseAuth.getInstance().signInAnonymously();
             Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
             startActivity(intent);
         }
@@ -65,6 +66,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             logout();
             return true;
         }
+//        if (id == R.id.action_login) {
+//            login();
+//            return true;
+//        }
         return super.onOptionsItemSelected(item);
     }
 
@@ -75,4 +80,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         startActivity(intent);
         finish();
     }
+
+//    private void login() {
+//        Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+//        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//        startActivity(intent);
+//        finish();
+//    }
 }
