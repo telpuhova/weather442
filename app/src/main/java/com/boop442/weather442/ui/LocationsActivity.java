@@ -64,7 +64,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     String mWoeid = "";
     ArrayList<Location> locations = new ArrayList<>();
 
-    
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
