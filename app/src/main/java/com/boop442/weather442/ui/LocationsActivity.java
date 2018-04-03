@@ -56,6 +56,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private List<Forecast> mForecasts = new ArrayList<>();
     private Query locationQuery;
     private DatabaseReference mLocationReference;
+    private String mUid;
 
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
@@ -79,12 +80,20 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
+        mUid = "654321";
+        if (user == null) {
+            mUid = "123456";
+        } else {
+            mUid = user.getUid();
+        }
+
+        Log.d("-------LOCATIONS-UID-----------------------------------", mUid);
+
 
         mLocationReference = FirebaseDatabase
                 .getInstance()
                 .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
-                .child(uid);
+                .child(mUid);
 
 
         locationQuery = mLocationReference.getRef();
@@ -98,7 +107,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         mAddButton.setOnClickListener(this);
     }
 
-    
+
 
 
     public void setUpFirebaseAdapter() {
@@ -195,11 +204,11 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                         //write to firebase
 
                         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-                        String uid = user.getUid();
+//                        String uid = user.getUid();
                         DatabaseReference restaurantRef = FirebaseDatabase
                                 .getInstance()
                                 .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
-                                .child(uid);
+                                .child(mUid);
 
                         DatabaseReference pushRef = restaurantRef.push();
                         String pushId = pushRef.getKey();
