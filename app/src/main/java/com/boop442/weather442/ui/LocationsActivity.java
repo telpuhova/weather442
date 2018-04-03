@@ -55,11 +55,13 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private String mRecentLocation;
     private List<Forecast> mForecasts = new ArrayList<>();
     private Query locationQuery;
+    private DatabaseReference mLocationReference;
 
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
+
 
     String mWoeid = "";
     ArrayList<Location> locations = new ArrayList<>();
@@ -74,14 +76,29 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
 //        mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
 //        locationQuery = mLocationsReference.getRef();
-        //!!!
-        locationQuery = FirebaseDatabase.getInstance()
-                .getReference()
-                .child("locations");
+
+
+        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+        String uid = user.getUid();
+
+        mLocationReference = FirebaseDatabase
+                .getInstance()
+                .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
+                .child(uid);
+
+
+        locationQuery = mLocationReference.getRef();
+
+                //!!!
+//        locationQuery = FirebaseDatabase.getInstance()
+//                .getReference()
+//                .child("locations");
         setUpFirebaseAdapter();
 
         mAddButton.setOnClickListener(this);
     }
+
+    
 
 
     public void setUpFirebaseAdapter() {
@@ -176,8 +193,23 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
                         locations.add(locationObject);
 
                         //write to firebase
-                        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-                        locationsRef.push().setValue(locationObject);//push location to database
+
+                        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+                        String uid = user.getUid();
+                        DatabaseReference restaurantRef = FirebaseDatabase
+                                .getInstance()
+                                .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
+                                .child(uid);
+
+                        DatabaseReference pushRef = restaurantRef.push();
+                        String pushId = pushRef.getKey();
+                        locationObject.setPushId(pushId);
+                        pushRef.setValue(locationObject);//push location to database
+
+
+
+//                        DatabaseReference locationsRef = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+//                        locationsRef.push().setValue(locationObject);//push location to database
 
                     }
                 });

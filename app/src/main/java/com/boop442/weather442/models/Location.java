@@ -14,6 +14,7 @@ public class Location {
     private String title;
     private String woeid;
     private List<Forecast> forecasts = new ArrayList<>();
+    private String pushId;
 
     public Location() {
     }
@@ -51,5 +52,13 @@ public class Location {
 
     public void setWoeid(String woeid) {
         this.woeid = woeid;
+    }
+
+    public String getPushId() {
+        return pushId;
+    }
+
+    public void setPushId(String pushId) {
+        this.pushId = pushId;
     }
 }
