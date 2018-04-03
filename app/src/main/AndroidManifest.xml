@@ -39,9 +39,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="com.boop442.weather442.ui.LocationsActivity" />
         </activity>
-        <activity android:name=".ui.CreateAccountActivity" />
-        <activity android:name=".ui.LoginActivity">
-
+        <activity android:name=".ui.CreateAccountActivity" android:theme="@style/NoActionBarTheme">
+        </activity>
+        <activity android:name=".ui.LoginActivity" android:theme="@style/NoActionBarTheme">
         </activity>
     </application>
 

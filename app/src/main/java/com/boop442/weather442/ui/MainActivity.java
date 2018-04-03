@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @BindView(R.id.titleTextView) TextView mTitleTextView;
 
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,6 +37,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         mLocationsButton.setOnClickListener(this);
         mAboutButton.setOnClickListener(this);
+
     }
 
     @Override
