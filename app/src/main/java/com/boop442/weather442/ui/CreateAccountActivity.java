@@ -114,7 +114,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 mAuthProgressDialog.dismiss();
                 if (task.isSuccessful()) {
                     Log.d(TAG, "Authentication successful");
-                    createFirebaseUserProfile(task.getResult().getUser());
+//                    createFirebaseUserProfile(task.getResult().getUser());
                 } else {
                     Log.d(TAG, "Authentication failed");
                     Toast.makeText(CreateAccountActivity.this, "Authentication failed.",
@@ -175,28 +175,4 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
         return true;
     }
-
-
-
-    //add extra data to a user's account. -- here just for name string
-    private void createFirebaseUserProfile(final FirebaseUser user) {
-
-        UserProfileChangeRequest addProfileName = new UserProfileChangeRequest.Builder()
-                .setDisplayName(mName)
-                .build();
-
-        user.updateProfile(addProfileName)
-                .addOnCompleteListener(new OnCompleteListener<Void>() {
-
-                    @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        if (task.isSuccessful()) {
-                            String test = user.getDisplayName();
-                            Log.d(TAG, "dkjfhkrshfkdsjh");
-                        }
-                    }
-
-                });
-    }
-
 }
