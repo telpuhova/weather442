@@ -28,7 +28,7 @@ public class ForecastDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 
         mLocations = Parcels.unwrap(getIntent().getParcelableExtra("locations"));
-        int startingPosition = getIntent().getIntExtra("position", 0);
+        int startingPosition = Integer.parseInt(getIntent().getStringExtra("position"));
 
         forecastPagerAdapter = new ForecastPagerAdapter(getSupportFragmentManager(), mLocations);
         mViewPager.setAdapter(forecastPagerAdapter);

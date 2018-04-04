@@ -51,11 +51,11 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
     private ForecastListAdapter mAdapter;
 
     public static ForecastDetailFragment newInstance(Location location) {
-        ForecastDetailFragment restaurantDetailFragment = new ForecastDetailFragment();
+        ForecastDetailFragment locationDetailFragment = new ForecastDetailFragment();
         Bundle args = new Bundle();
         args.putParcelable("location", Parcels.wrap(location));
-        restaurantDetailFragment.setArguments(args);
-        return restaurantDetailFragment;
+        locationDetailFragment.setArguments(args);
+        return locationDetailFragment;
     }
 
     @Override

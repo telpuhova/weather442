@@ -46,10 +46,15 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
     @Override
     public void onClick(View view) {
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid = user.getUid();
+        String uid;
+        if (!(user.isAnonymous()) && (user != null)) {
+            uid = user.getUid();
+        } else {
+            uid = "123456";
+        }
 
         final ArrayList<Location> locations = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
+        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS).child(uid);
         ref.addListenerForSingleValueEvent(new ValueEventListener() {
 
             @Override
@@ -61,7 +66,7 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
                 int itemPosition = getLayoutPosition();
 
                 Intent intent = new Intent(mContext, ForecastDetailActivity.class);
-                intent.putExtra("position", itemPosition);
+                intent.putExtra("position", itemPosition + "");
                 intent.putExtra("locations", Parcels.wrap(locations));
 
                 mContext.startActivity(intent);

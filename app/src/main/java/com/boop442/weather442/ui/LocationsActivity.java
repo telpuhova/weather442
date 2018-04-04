@@ -84,7 +84,6 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String userEmail = "guest";
-
         mUid = "123456";
         if ((user != null) && !user.isAnonymous()) {
             mUid = user.getUid();
