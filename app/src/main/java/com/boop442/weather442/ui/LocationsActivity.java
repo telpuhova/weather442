@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.boop442.weather442.Constants;
@@ -59,6 +60,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private String mUid;
 
     @BindView(R.id.addButton) Button mAddButton;
+    @BindView(R.id.authenticatedUserTextView) TextView mAuthenticatedUserTextView;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
 
     private FirebaseRecyclerAdapter mFirebaseAdapter;
@@ -80,11 +82,13 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
 
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        mUid = "654321";
-        if (user == null) {
-            mUid = "123456";
-        } else {
+
+        String userEmail = "guest";
+
+        mUid = "123456";
+        if ((user != null) && !user.isAnonymous()) {
             mUid = user.getUid();
+            userEmail = user.getEmail();
         }
 
         Log.d("-------LOCATIONS-UID-----------------------------------", mUid);
@@ -105,6 +109,8 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         setUpFirebaseAdapter();
 
         mAddButton.setOnClickListener(this);
+
+        mAuthenticatedUserTextView.setText(userEmail);
     }
 
 
@@ -212,7 +218,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
                         DatabaseReference pushRef = restaurantRef.push();
                         String pushId = pushRef.getKey();
-                        locationObject.setPushId(pushId);
+                        locationObject.setPushId(mUid);
                         pushRef.setValue(locationObject);//push location to database
 
 

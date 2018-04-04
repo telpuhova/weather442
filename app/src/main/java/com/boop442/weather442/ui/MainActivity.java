@@ -46,7 +46,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void onClick(View v) {
         if (v == mLocationsButton) {
-            FirebaseAuth.getInstance().signInAnonymously();
+            FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+            if (user == null) {
+                FirebaseAuth.getInstance().signInAnonymously();
+            }
             Intent intent = new Intent(MainActivity.this, LocationsActivity.class);
             startActivity(intent);
         }
