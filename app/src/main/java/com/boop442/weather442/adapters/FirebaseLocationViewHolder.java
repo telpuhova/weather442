@@ -28,6 +28,9 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
     View mView;
     Context mContext;
 
+    public TextView mLocTitleTextViewFDF;
+
+
     public FirebaseLocationViewHolder(View itemView) {
         super(itemView);
         mView = itemView;
@@ -36,10 +39,10 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
     }
 
     public void bindLocation(Location location) {
-        TextView locTitleTextViewFDF = (TextView) mView.findViewById(R.id.locationTextView);
+        mLocTitleTextViewFDF = (TextView) mView.findViewById(R.id.locationTextView);
 //        RecyclerView recyclerViewFDF = (RecyclerView) mView.findViewById(R.id.recyclerViewFDF);
 
-        locTitleTextViewFDF.setText(location.getTitle());
+        mLocTitleTextViewFDF.setText(location.getTitle());
 //        recyclerViewFDF.
     }
 

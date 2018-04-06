@@ -9,6 +9,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -19,14 +20,17 @@ import android.widget.Toast;
 
 import com.boop442.weather442.Constants;
 import com.boop442.weather442.R;
+import com.boop442.weather442.adapters.FirebaseLocationListAdapter;
 import com.boop442.weather442.adapters.FirebaseLocationViewHolder;
 import com.boop442.weather442.adapters.ForecastListAdapter;
 import com.boop442.weather442.adapters.LocationListAdapter;
 import com.boop442.weather442.models.Forecast;
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.services.MetaWeatherService;
+import com.boop442.weather442.util.OnStartDragListener;
+import com.boop442.weather442.util.SimpleItemTouchHelperCallback;
 import com.firebase.ui.database.FirebaseRecyclerAdapter;
-import com.firebase.ui.database.FirebaseRecyclerOptions;
+//import com.firebase.ui.database.FirebaseRecyclerOptions;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DataSnapshot;
@@ -50,7 +54,7 @@ import okhttp3.Call;
 import okhttp3.Callback;
 import okhttp3.Response;
 
-public class LocationsActivity extends AppCompatActivity implements View.OnClickListener, DialogInterface.OnDismissListener {
+public class LocationsActivity extends AppCompatActivity implements View.OnClickListener, DialogInterface.OnDismissListener, OnStartDragListener {
 
     private SharedPreferences mSharedPreferences;
     private String mRecentLocation;
@@ -59,11 +63,13 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
     private DatabaseReference mLocationReference;
     private String mUid;
 
+    private ItemTouchHelper mItemTouchHelper;
+
     @BindView(R.id.addButton) Button mAddButton;
     @BindView(R.id.authenticatedUserTextView) TextView mAuthenticatedUserTextView;
     @BindView(R.id.locationsRecyclerView) RecyclerView mRecyclerView;
 
-    private FirebaseRecyclerAdapter mFirebaseAdapter;
+    private FirebaseLocationListAdapter mFirebaseAdapter;
 
 
     String mWoeid = "";
@@ -77,10 +83,6 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_locations);
         ButterKnife.bind(this);
 
-//        mLocationsReference = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS);
-//        locationQuery = mLocationsReference.getRef();
-
-
         FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
         String userEmail = "guest";
@@ -90,7 +92,7 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
             userEmail = user.getEmail();
         }
 
-        Log.d("-------LOCATIONS-UID-----------------------------------", mUid);
+        Log.d("----LOCATIONS-UID------", mUid);
 
 
         mLocationReference = FirebaseDatabase
@@ -117,30 +119,44 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
     public void setUpFirebaseAdapter() {
 
-        FirebaseRecyclerOptions<Location> options =
-                new FirebaseRecyclerOptions.Builder<Location>()
-                        .setQuery(locationQuery, Location.class)
-                        .build();
+//        FirebaseRecyclerOptions<Location> options =
+//                new FirebaseRecyclerOptions.Builder<Location>()
+//                        .setQuery(locationQuery, Location.class)
+//                        .build();
 
 
-        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>(options) {
+        mFirebaseAdapter = new FirebaseLocationListAdapter(Location.class,
+                R.layout.location_list_item, FirebaseLocationViewHolder.class,
+                mLocationReference, this, this);
 
-            @Override
-            public FirebaseLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-                View view = LayoutInflater.from(parent.getContext())
-                        .inflate(R.layout.location_list_item, parent, false);
-                return new FirebaseLocationViewHolder(view);
-            }
 
-            @Override
-            protected void onBindViewHolder(FirebaseLocationViewHolder viewHolder, int position, Location model) {
-                viewHolder.bindLocation(model);
-            }
-        };
+//        mFirebaseAdapter = new FirebaseLocationListAdapter(Location.class,
+//                R.layout.location_list_item, FirebaseLocationViewHolder.class,
+//                locationQuery, this, getActivity());
+
+
+
+//        mFirebaseAdapter = new FirebaseRecyclerAdapter<Location, FirebaseLocationViewHolder>(options) {
+//
+//            @Override
+//            public FirebaseLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+//                View view = LayoutInflater.from(parent.getContext())
+//                        .inflate(R.layout.location_list_item, parent, false);
+//                return new FirebaseLocationViewHolder(view);
+//            }
+//
+//            @Override
+//            protected void onBindViewHolder(FirebaseLocationViewHolder viewHolder, int position, Location model) {
+//                viewHolder.bindLocation(model);
+//            }
+//        };
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
         mRecyclerView.setAdapter(mFirebaseAdapter);
 
+        ItemTouchHelper.Callback callback = new SimpleItemTouchHelperCallback(mFirebaseAdapter);
+        mItemTouchHelper = new ItemTouchHelper(callback);
+        mItemTouchHelper.attachToRecyclerView(mRecyclerView);
     }
 
     @Override
@@ -232,16 +248,22 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    @Override
-    protected void onStart() {
-        super.onStart();
-        mFirebaseAdapter.startListening();
-    }
 
     @Override
     protected void onDestroy() {
         super.onDestroy();
-//        mFirebaseAdapter.setIndexInFirebase();
-        mFirebaseAdapter.stopListening();
+        mFirebaseAdapter.cleanup();
     }
+
+    @Override
+    public void onStartDrag(RecyclerView.ViewHolder viewHolder) {
+        mItemTouchHelper.startDrag(viewHolder);
+    }
+
+//    @Override
+//    protected void onStart() {
+//        super.onStart();
+//        mFirebaseAdapter.startListening();
+//    }
+
 }
