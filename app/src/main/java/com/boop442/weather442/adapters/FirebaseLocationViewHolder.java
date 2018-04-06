@@ -23,7 +23,7 @@ import org.parceler.Parcels;
 
 import java.util.ArrayList;
 
-public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
+public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder {
 
     View mView;
     Context mContext;
@@ -35,7 +35,7 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
         super(itemView);
         mView = itemView;
         mContext = itemView.getContext();
-        itemView.setOnClickListener(this);
+//        itemView.setOnClickListener(this);
     }
 
     public void bindLocation(Location location) {
@@ -46,39 +46,39 @@ public class FirebaseLocationViewHolder extends RecyclerView.ViewHolder implemen
 //        recyclerViewFDF.
     }
 
-    @Override
-    public void onClick(View view) {
-        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
-        String uid;
-        if (!(user.isAnonymous()) && (user != null)) {
-            uid = user.getUid();
-        } else {
-            uid = "123456";
-        }
-
-        final ArrayList<Location> locations = new ArrayList<>();
-        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS).child(uid);
-        ref.addListenerForSingleValueEvent(new ValueEventListener() {
-
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    locations.add(snapshot.getValue(Location.class));
-                }
-
-                int itemPosition = getLayoutPosition();
-
-                Intent intent = new Intent(mContext, ForecastDetailActivity.class);
-                intent.putExtra("position", itemPosition + "");
-                intent.putExtra("locations", Parcels.wrap(locations));
-
-                mContext.startActivity(intent);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.wtf("FireBaseLocationViewHolder------------------------", databaseError.getMessage());
-            }
-        });
-    }
+//    @Override
+//    public void onClick(View view) {
+//        FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
+//        String uid;
+//        if (!(user.isAnonymous()) && (user != null)) {
+//            uid = user.getUid();
+//        } else {
+//            uid = "123456";
+//        }
+//
+//        final ArrayList<Location> locations = new ArrayList<>();
+//        DatabaseReference ref = FirebaseDatabase.getInstance().getReference(Constants.FIREBASE_CHILD_LOCATIONS).child(uid);
+//        ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//
+//            @Override
+//            public void onDataChange(DataSnapshot dataSnapshot) {
+//                for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+//                    locations.add(snapshot.getValue(Location.class));
+//                }
+//
+//                int itemPosition = getLayoutPosition();
+//
+//                Intent intent = new Intent(mContext, ForecastDetailActivity.class);
+//                intent.putExtra("position", itemPosition + "");
+//                intent.putExtra("locations", Parcels.wrap(locations));
+//
+//                mContext.startActivity(intent);
+//            }
+//
+//            @Override
+//            public void onCancelled(DatabaseError databaseError) {
+//                Log.wtf("FireBaseLocationViewHolder------------------------", databaseError.getMessage());
+//            }
+//        });
+//    }
 }

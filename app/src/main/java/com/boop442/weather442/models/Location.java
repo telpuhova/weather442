@@ -11,10 +11,11 @@ import java.util.List;
 
 @Parcel
 public class Location {
-    private String title;
-    private String woeid;
-    private List<Forecast> forecasts = new ArrayList<>();
-    private String pushId;
+    String index;
+    String title;
+    String woeid;
+    List<Forecast> forecasts = new ArrayList<>();
+    String pushId;
 
     public Location() {
     }
@@ -22,12 +23,14 @@ public class Location {
     public Location(String title, String woeid) {
         this.title = title;
         this.woeid = woeid;
+        this.index = "not_specified";
     }
 
     public Location(String title, String woeid, List<Forecast> forecasts) {
         this.title = title;
         this.woeid = woeid;
         this.forecasts = forecasts;
+        this.index = "not_specified";
     }
 
     public List<Forecast> getForecasts() {
@@ -60,5 +63,13 @@ public class Location {
 
     public void setPushId(String pushId) {
         this.pushId = pushId;
+    }
+
+    public String getIndex() {
+        return index;
+    }
+
+    public void setIndex(String index) {
+        this.index = index;
     }
 }

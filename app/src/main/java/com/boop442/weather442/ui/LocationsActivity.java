@@ -125,9 +125,14 @@ public class LocationsActivity extends AppCompatActivity implements View.OnClick
 //                        .build();
 
 
+        Query query = FirebaseDatabase.getInstance()
+                .getReference(Constants.FIREBASE_CHILD_LOCATIONS)
+                .child(mUid)
+                .orderByChild(Constants.FIREBASE_QUERY_INDEX);
+
         mFirebaseAdapter = new FirebaseLocationListAdapter(Location.class,
                 R.layout.location_list_item, FirebaseLocationViewHolder.class,
-                mLocationReference, this, this);
+                query, this, this);
 
 
 //        mFirebaseAdapter = new FirebaseLocationListAdapter(Location.class,
