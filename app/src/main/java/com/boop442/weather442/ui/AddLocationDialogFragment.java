@@ -29,6 +29,9 @@ public class AddLocationDialogFragment extends DialogFragment {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
+    //new
+    private DialogInterface.OnDismissListener onDismissListener;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -77,14 +80,21 @@ public class AddLocationDialogFragment extends DialogFragment {
         mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
     }
 
+    //new
+    public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
+        this.onDismissListener = onDismissListener;
+    }
 
     @Override
     public void onDismiss(final DialogInterface dialog) {
         super.onDismiss(dialog);
-        final Activity activity = getActivity();
-        if (activity instanceof DialogInterface.OnDismissListener) {
-            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+        if(onDismissListener != null){
+            onDismissListener.onDismiss(dialog);
         }
+//        final Activity activity = getActivity();
+//        if (activity instanceof DialogInterface.OnDismissListener) {
+//            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
+//        }
     }
 
 

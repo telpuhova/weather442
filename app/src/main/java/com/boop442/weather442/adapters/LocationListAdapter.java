@@ -2,6 +2,9 @@ package com.boop442.weather442.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
+import android.support.v4.app.FragmentActivity;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -62,12 +65,35 @@ public class LocationListAdapter extends RecyclerView.Adapter<LocationListAdapte
         @BindView(R.id.locationTextView) TextView mLocationTextView;
         private Context mContext;
 
+        private int mOrientation;
+
         public LocationViewHolder(View itemView) {
             super(itemView);
             ButterKnife.bind(this, itemView);
             mContext = itemView.getContext();
 
             itemView.setOnClickListener(this);
+
+            // Determines the current orientation of the device:
+            mOrientation = itemView.getResources().getConfiguration().orientation;
+
+            // Checks if the recorded orientation matches Android's landscape configuration.
+            // if so, we create a new DetailFragment to display in our special landscape layout:
+            if (mOrientation == Configuration.ORIENTATION_LANDSCAPE) {
+                createDetailFragment(0);
+            }
+        }
+
+        // Takes position of restaurant in list as parameter:
+        private void createDetailFragment(int position) {
+            // Creates new RestaurantDetailFragment with the given position:
+            LocationsActivity detailFragment = new LocationsActivity();
+            // Gathers necessary components to replace the FrameLayout in the layout with the RestaurantDetailFragment:
+            FragmentTransaction ft = ((FragmentActivity) mContext).getSupportFragmentManager().beginTransaction();
+            //  Replaces the FrameLayout with the RestaurantDetailFragment:
+//            ft.replace(R.id.restaurantDetailContainer, detailFragment);
+            // Commits these changes:
+            ft.commit();
         }
 
         public void bindLocation(Location location) {
