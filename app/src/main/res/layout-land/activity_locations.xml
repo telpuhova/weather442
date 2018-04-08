@@ -10,18 +10,18 @@
 
     <fragment
         android:id="@+id/fragmentItemsList"
-        android:name="com.epicodus.myrestaurants.ui.RestaurantListFragment"
+        android:name="com.boop442.weather442.ui.LocationsFragment"
         android:layout_height="match_parent"
         android:layout_width="0dp"
         android:layout_weight="3"
-        tools:layout="@layout/fragment_restaurant_list" />
+        tools:layout="@layout/fragment_locations" />
 
     <View android:background="@color/colorAccent"
         android:layout_width="2dp"
         android:layout_height="wrap_content"/>
 
     <FrameLayout
-        android:id="@+id/restaurantDetailContainer"
+        android:id="@+id/locationDetailContainer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
         android:layout_weight="6">

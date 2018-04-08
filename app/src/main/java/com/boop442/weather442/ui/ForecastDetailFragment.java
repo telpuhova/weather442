@@ -50,6 +50,14 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
     private ArrayList<Forecast> forecasts;
     private ForecastListAdapter mAdapter;
 
+//    public static ForecastDetailFragment newInstance(ArrayList<Location> locations, int position) {
+//        ForecastDetailFragment locationDetailFragment = new ForecastDetailFragment();
+//        Bundle args = new Bundle();
+//        args.putParcelable("location", Parcels.wrap(locations.get(position)));
+//        locationDetailFragment.setArguments(args);
+//        return locationDetailFragment;
+//    }
+
     public static ForecastDetailFragment newInstance(Location location) {
         ForecastDetailFragment locationDetailFragment = new ForecastDetailFragment();
         Bundle args = new Bundle();

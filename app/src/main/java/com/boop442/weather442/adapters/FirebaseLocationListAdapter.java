@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.ViewGroup;
 
 import com.boop442.weather442.models.Location;
 import com.boop442.weather442.ui.ForecastDetailActivity;
@@ -119,5 +120,13 @@ public class FirebaseLocationListAdapter extends FirebaseRecyclerAdapter<Locatio
         super.cleanup();
         setIndexInFirebase();
         mRef.removeEventListener(mChildEventListener);
+    }
+
+    @Override
+    public FirebaseLocationViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        FirebaseLocationViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
+        viewHolder.setmLocations(mLocations);
+        return viewHolder;
+//        return super.onCreateViewHolder(parent, viewType);
     }
 }

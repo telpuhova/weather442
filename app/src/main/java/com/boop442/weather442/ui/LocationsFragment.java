@@ -145,6 +145,7 @@ public class LocationsFragment extends Fragment implements DialogInterface.OnDis
                 query, this, getActivity());
 
 
+
 //        mFirebaseAdapter = new FirebaseLocationListAdapter(Location.class,
 //                R.layout.location_list_item, FirebaseLocationViewHolder.class,
 //                locationQuery, this, getActivity());
