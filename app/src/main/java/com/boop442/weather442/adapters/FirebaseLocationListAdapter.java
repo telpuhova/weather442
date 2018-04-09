@@ -2,6 +2,7 @@ package com.boop442.weather442.adapters;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Configuration;
 import android.support.v4.view.MotionEventCompat;
 import android.view.MotionEvent;
 import android.view.View;
@@ -47,24 +48,16 @@ public class FirebaseLocationListAdapter extends FirebaseRecyclerAdapter<Locatio
             }
 
             @Override
-            public void onChildChanged(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildChanged(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onChildRemoved(DataSnapshot dataSnapshot) {
-
-            }
+            public void onChildRemoved(DataSnapshot dataSnapshot) {}
 
             @Override
-            public void onChildMoved(DataSnapshot dataSnapshot, String s) {
-
-            }
+            public void onChildMoved(DataSnapshot dataSnapshot, String s) {}
 
             @Override
-            public void onCancelled(DatabaseError databaseError) {
-
-            }
+            public void onCancelled(DatabaseError databaseError) {}
         });
     }
 
@@ -85,10 +78,15 @@ public class FirebaseLocationListAdapter extends FirebaseRecyclerAdapter<Locatio
 
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(mContext, ForecastDetailActivity.class);
-                intent.putExtra("position", viewHolder.getAdapterPosition());
-                intent.putExtra("locations", Parcels.wrap(mLocations));
-                mContext.startActivity(intent);
+                int itemPosition = viewHolder.getAdapterPosition();
+                if (viewHolder.getmOrientation() == Configuration.ORIENTATION_LANDSCAPE) {
+                    viewHolder.createDetailFragment(itemPosition);
+                } else {
+                    Intent intent = new Intent(mContext, ForecastDetailActivity.class);
+                    intent.putExtra("position", viewHolder.getAdapterPosition());
+                    intent.putExtra("locations", Parcels.wrap(mLocations));
+                    mContext.startActivity(intent);
+                }
             }
         });
     }
@@ -127,6 +125,5 @@ public class FirebaseLocationListAdapter extends FirebaseRecyclerAdapter<Locatio
         FirebaseLocationViewHolder viewHolder = super.onCreateViewHolder(parent, viewType);
         viewHolder.setmLocations(mLocations);
         return viewHolder;
-//        return super.onCreateViewHolder(parent, viewType);
     }
 }

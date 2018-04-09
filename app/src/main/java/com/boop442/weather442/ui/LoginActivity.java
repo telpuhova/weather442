@@ -25,13 +25,10 @@ import butterknife.ButterKnife;
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
     public static final String TAG = LoginActivity.class.getSimpleName();
 
-    @BindView(R.id.passwordLoginButton)
-    Button mPasswordLoginButton;
-    @BindView(R.id.emailEditText)
-    EditText mEmailEditText;
+    @BindView(R.id.passwordLoginButton) Button mPasswordLoginButton;
+    @BindView(R.id.emailEditText) EditText mEmailEditText;
     @BindView(R.id.passwordEditText) EditText mPasswordEditText;
-    @BindView(R.id.registerTextView)
-    TextView mRegisterTextView;
+    @BindView(R.id.registerTextView) TextView mRegisterTextView;
     @BindView(R.id.anonimouslyTextView) TextView mAnonimouslyTextView;
 
     private FirebaseAuth mAuth;

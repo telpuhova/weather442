@@ -43,20 +43,10 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
     @BindView(R.id.locTitleTextViewFDF) TextView mTextView;
     @BindView(R.id.refreshButton) Button mRefreshButton;
 
-//    FirebaseDatabase database = FirebaseDatabase.getInstance();
-//    DatabaseReference ref = database.getReference();
-
     private Location mCurrentLocation;
     private ArrayList<Forecast> forecasts;
     private ForecastListAdapter mAdapter;
 
-//    public static ForecastDetailFragment newInstance(ArrayList<Location> locations, int position) {
-//        ForecastDetailFragment locationDetailFragment = new ForecastDetailFragment();
-//        Bundle args = new Bundle();
-//        args.putParcelable("location", Parcels.wrap(locations.get(position)));
-//        locationDetailFragment.setArguments(args);
-//        return locationDetailFragment;
-//    }
 
     public static ForecastDetailFragment newInstance(Location location) {
         ForecastDetailFragment locationDetailFragment = new ForecastDetailFragment();
@@ -83,10 +73,6 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
 
         displayForecasts();
 
-//        Picasso.with(view.getContext()).load(mRestaurant.getImageUrl()).into(mImageLabel);
-
-//        mNameLabel.setText(mRestaurant.getName());
-
         return view;
     }
 
@@ -97,7 +83,6 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
             getActivity().runOnUiThread(new Runnable() {
                 @Override
                 public void run() {
-                    Log.d("RUN--------------------", getContext().toString());
                     mAdapter = new ForecastListAdapter(mCurrentLocation.getForecasts(), getContext());
                     mRecyclerView.setAdapter(mAdapter);
                     RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());
@@ -112,7 +97,6 @@ public class ForecastDetailFragment extends Fragment implements View.OnClickList
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                Log.d("RUN--------------------", getContext().toString());
                 mAdapter = new ForecastListAdapter(mCurrentLocation.getForecasts(), getContext());
                 mRecyclerView.setAdapter(mAdapter);
                 RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getContext());

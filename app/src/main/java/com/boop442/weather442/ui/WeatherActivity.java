@@ -28,8 +28,6 @@ import okhttp3.Callback;
 import okhttp3.Response;
 
 public class WeatherActivity extends AppCompatActivity {
-//    @BindView(R.id.locTitleTextView) TextView mLocTitleTextView;
-//    @BindView(R.id.listView) ListView mListView;
 
     @BindView(R.id.recyclerView) RecyclerView mRecyclerView;
     @BindView(R.id.locTitleTextView) TextView mLocTitleTextView;
@@ -37,7 +35,6 @@ public class WeatherActivity extends AppCompatActivity {
 
     String woeid = "44418";
     ArrayList<Forecast> forecasts = new ArrayList<>();
-    String[] forecastsDatesTest = {"123", "234", "345", "456", "567", "678"};
     ArrayList<Location> mLocations = new ArrayList<>();
     Location mCurrentLocation;
 
@@ -65,21 +62,6 @@ public class WeatherActivity extends AppCompatActivity {
         final MetaWeatherService weatherService = new MetaWeatherService();
         Log.v("WEATHER_ACTIVITY", "getForecast function");
 
-
-//        weatherService.getWoeid(location, new Callback() {
-//
-//            @Override
-//            public void onFailure(Call call, IOException e) {
-//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onFailure");
-//                e.printStackTrace();
-//            }
-//
-//            @Override
-//            public void onResponse(Call call, Response response) throws IOException {
-//                Log.v("WEATHER_ACTIVITY", "weatherService.getWoeid callback function --- onResponse");
-//                woeid = String.valueOf(MetaWeatherService.processWoeidCall(response));
-//            }
-//        });
 
         weatherService.findForecast(mCurrentLocation.getWoeid(), new Callback() {
             @Override

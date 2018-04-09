@@ -52,7 +52,6 @@ public class ForecastListAdapter extends RecyclerView.Adapter<ForecastListAdapte
         @BindView(R.id.tempTextView) TextView mTempTextView;
         @BindView(R.id.stateTextView) TextView mStateTextView;
 
-        private Context mContext;
 
         public ForecastViewHolder(View itemView) {
             super(itemView);

@@ -29,7 +29,7 @@ public class AddLocationDialogFragment extends DialogFragment {
     private SharedPreferences mSharedPreferences;
     private SharedPreferences.Editor mEditor;
 
-    //new
+
     private DialogInterface.OnDismissListener onDismissListener;
 
 
@@ -38,7 +38,6 @@ public class AddLocationDialogFragment extends DialogFragment {
 
         Context context = getActivity().getApplicationContext();
 
-//        mSharedPreferences = getActivity().getSharedPreferences("numberPicker.preferences", 0);
         mSharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
         mEditor = mSharedPreferences.edit();
 
@@ -53,6 +52,7 @@ public class AddLocationDialogFragment extends DialogFragment {
 
             @Override
             public void onClick(View v) {
+                addToSharedPreferences("cancelStr");
                 dismiss();
             }
         });
@@ -64,23 +64,29 @@ public class AddLocationDialogFragment extends DialogFragment {
                 String newLocation = inputLocationEditText.getText().toString();
                 Log.d("testing", newLocation);
 
-//                Location bundleLocationObject = Parcels.unwrap(getArguments().getParcelable("locationObject"));
-//                bundleLocationObject.setTitle(newLocation);
-
-                addToSharedPreferences(newLocation);
-
-                dismiss();
+                boolean locationIsValid = validateLocation(newLocation);
+                if (locationIsValid) {
+                    addToSharedPreferences(newLocation);
+                    dismiss();
+                } else {
+                    inputLocationEditText.setError("Enter city");
+                }
             }
         });
 
         return rootView;
     }
 
+    public boolean validateLocation(String str) {
+        if (str.equals("")) {
+            return false;
+        } else return true;
+    }
+
     private void addToSharedPreferences(String location) {
         mEditor.putString(Constants.PREFERENCES_LOCATION_KEY, location).apply();
     }
 
-    //new
     public void setOnDismissListener(DialogInterface.OnDismissListener onDismissListener) {
         this.onDismissListener = onDismissListener;
     }
@@ -91,10 +97,6 @@ public class AddLocationDialogFragment extends DialogFragment {
         if(onDismissListener != null){
             onDismissListener.onDismiss(dialog);
         }
-//        final Activity activity = getActivity();
-//        if (activity instanceof DialogInterface.OnDismissListener) {
-//            ((DialogInterface.OnDismissListener) activity).onDismiss(dialog);
-//        }
     }
 
 

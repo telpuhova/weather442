@@ -70,15 +70,11 @@ public class MetaWeatherService {
 
         try {
             String jsonData = response.body().string();
-//            JSONObject woeidJSON = new JSONObject(jsonData);
             JSONArray woeidArrJSON = new JSONArray(jsonData);
             Log.v("weatherSERVICE", woeidArrJSON.toString());
 
             woeid = woeidArrJSON.getJSONObject(0).getInt("woeid");
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        } catch (JSONException e) {
-//            e.printStackTrace();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
