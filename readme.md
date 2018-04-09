@@ -16,7 +16,7 @@ In progress.
 
 * clone repository
 ```
-$ git clone https://github.com/telpuhova/weather-app.git
+$ git clone https://github.com/telpuhova/weather442.git
 ```
 * open the repository with Android Studio
 * set up a virtual android device (or connect your phone)
